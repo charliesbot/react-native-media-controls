@@ -44,6 +44,16 @@ module.exports = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: 'rgba(255,255,255,0.5)',
   },
+  playIcon: {
+    width: 22,
+    height: 22,
+    resizeMode: 'contain',
+  },
+  replayIcon: {
+    width: 25,
+    height: 20,
+    resizeMode: 'stretch',
+  },
   progressContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',

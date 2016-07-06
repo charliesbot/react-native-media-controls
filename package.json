@@ -16,7 +16,7 @@
     "media",
     "control"
   ],
-  "main": "MediaControls.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:charliesbox/react-native-media-controls.git"
