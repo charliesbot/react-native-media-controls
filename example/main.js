@@ -107,7 +107,7 @@ class Main extends Component {
           onProgress={this.onProgress}
         />
         <MediaControls
-          mainColor="red"
+          mainColor="orange"
           toolbar={this.renderToolbar()}
           playerState={this.state.playerState}
           isLoading={this.state.isLoading}

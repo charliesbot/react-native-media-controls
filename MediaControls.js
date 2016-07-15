@@ -23,6 +23,7 @@ class MediaControls extends Component {
     this.dragging = this.dragging.bind(this);
     this.seekVideo = this.seekVideo.bind(this);
     this.onPause = this.onPause.bind(this);
+    this.onReplay = this.onReplay.bind(this);
     this.state = {
       opacity: new Animated.Value(1),
       isVisible: true,
@@ -33,6 +34,12 @@ class MediaControls extends Component {
     // TODO remove when android supports animations
     if (Platform.OS === 'android') UIManager.setLayoutAnimationEnabledExperimental(true);
     this.fadeOutControls(5000);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.playerState === PLAYER_STATE.ENDED) {
+      this.fadeInControls(false);
+    }
   }
 
   getPlayerStateIcon(playerState) {
@@ -49,7 +56,7 @@ class MediaControls extends Component {
   setPlayerControls(playerState) {
     let icon = this.getPlayerStateIcon(playerState);
     let pressAction =
-      playerState === PLAYER_STATE.ENDED ? this.props.onReplay : this.onPause;
+      playerState === PLAYER_STATE.ENDED ? this.onReplay : this.onPause;
     return (
       <TouchableOpacity
         style={[styles.playButton, {backgroundColor: this.props.mainColor}]}
@@ -66,16 +73,25 @@ class MediaControls extends Component {
     );
   }
 
-  onPause(){
-    if(this.props.playerState === PLAYER_STATE.PLAYING)
+  onReplay() {
+    this.fadeOutControls(5000);
+    this.props.onReplay();
+  }
+
+  onPause() {
+    if (this.props.playerState === PLAYER_STATE.PLAYING) {
       this.cancelAnimation();
-    if(this.props.playerState === PLAYER_STATE.PAUSED)
+    }
+    if (this.props.playerState === PLAYER_STATE.PAUSED) {
       this.fadeOutControls(5000);
+    }
     this.props.onPaused();
   }
 
-  cancelAnimation(){
-    this.state.opacity.stopAnimation((value) => { this.setState({isVisible: true})});
+  cancelAnimation() {
+    this.state.opacity.stopAnimation((value) => {
+      this.setState({isVisible: true})
+    });
   }
 
   toggleControls() {
@@ -89,16 +105,22 @@ class MediaControls extends Component {
   }
 
   fadeOutControls(delay = 0) {
-    Animated.timing(this.state.opacity, {toValue: 0, duration: 300, delay}).start(() => {
-      this.setState({isVisible: false});
+    Animated.timing(this.state.opacity, {toValue: 0, duration: 300, delay}).start((result) => {
+      //I noticed that the callback is called twice, when it is invoked and when it completely finished
+      //This prevents some flickering
+      if (result.finished)
+        this.setState({isVisible: false});
     });
   }
 
-  fadeInControls() {
+  fadeInControls(loop = true) {
     this.setState({isVisible: true});
     Animated.timing(this.state.opacity, {toValue: 1, duration: 300, delay: 0}).start(() => {
-      this.fadeOutControls(5000);
+      if (loop) {
+        this.fadeOutControls(5000);
+      }
     });
+
   }
 
   dragging() {

@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "react": "15.2.0",
-    "react-native": "^0.29.0",
+    "react-native": "^0.29.1",
     "react-native-video": "^0.8.0",
     "react-native-media-controls": "file:.."
   }
