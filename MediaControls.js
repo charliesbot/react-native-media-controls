@@ -125,12 +125,12 @@ class MediaControls extends Component {
 
   dragging() {
     if (this.props.playerState === PLAYER_STATE.PAUSED) return;
-    this.props.onPaused();
+    this.onPause();
   }
 
   seekVideo(value) {
     this.props.onSeek(value);
-    this.props.onPaused();
+    this.onPause();
   }
 
   renderControls() {
