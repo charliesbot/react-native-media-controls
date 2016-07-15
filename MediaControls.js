@@ -19,8 +19,10 @@ class MediaControls extends Component {
   constructor(props) {
     super(props);
     this.toggleControls = this.toggleControls.bind(this);
+    this.cancelAnimation = this.cancelAnimation.bind(this);
     this.dragging = this.dragging.bind(this);
     this.seekVideo = this.seekVideo.bind(this);
+    this.onPause = this.onPause.bind(this);
     this.state = {
       opacity: new Animated.Value(1),
       isVisible: true,
@@ -47,14 +49,13 @@ class MediaControls extends Component {
   setPlayerControls(playerState) {
     let icon = this.getPlayerStateIcon(playerState);
     let pressAction =
-      playerState === PLAYER_STATE.ENDED ? this.props.onReplay : this.props.onPaused;
+      playerState === PLAYER_STATE.ENDED ? this.props.onReplay : this.onPause;
     return (
       <TouchableOpacity
-        style={[styles.playButton]}
+        style={[styles.playButton, {backgroundColor: this.props.mainColor}]}
         onPress={pressAction}
       >
-        <Image source={icon} style={styles.playIcon}
-        />
+        <Image source={icon} style={styles.playIcon}/>
       </TouchableOpacity>
     );
   }
@@ -63,6 +64,18 @@ class MediaControls extends Component {
     return (
       <ActivityIndicator size="large" color="#FFF"/>
     );
+  }
+
+  onPause(){
+    if(this.props.playerState === PLAYER_STATE.PLAYING)
+      this.cancelAnimation();
+    if(this.props.playerState === PLAYER_STATE.PAUSED)
+      this.fadeOutControls(5000);
+    this.props.onPaused();
+  }
+
+  cancelAnimation(){
+    this.state.opacity.stopAnimation((value) => { this.setState({isVisible: true})});
   }
 
   toggleControls() {
@@ -130,8 +143,8 @@ class MediaControls extends Component {
               maximumValue={Math.floor(this.props.duration)}
               value={Math.floor(this.props.progress)}
               trackStyle={styles.track}
-              thumbStyle={styles.thumb}
-              minimumTrackTintColor={'#0C53B0'}
+              thumbStyle={[styles.thumb, {borderColor: this.props.mainColor}]}
+              minimumTrackTintColor={this.props.mainColor}
             />
           </View>
           <TouchableOpacity style={styles.fullScreenContainer} onPress={this.props.onFullScreen}>
@@ -155,6 +168,7 @@ class MediaControls extends Component {
 
 MediaControls.propTypes = {
   toolbar: PropTypes.node,
+  mainColor: PropTypes.string,
   isLoading: PropTypes.bool,
   isFullScreen: PropTypes.bool,
   progress: PropTypes.number,
@@ -164,6 +178,10 @@ MediaControls.propTypes = {
   onPaused: PropTypes.func,
   onReplay: PropTypes.func,
   onSeek: PropTypes.func,
+};
+
+MediaControls.defaultProps = {
+  mainColor: 'rgba(12, 83, 175, 0.9)',
 };
 
 export default MediaControls;

@@ -40,7 +40,6 @@ module.exports = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 3,
-    backgroundColor: 'rgba(12, 83, 175, 0.9)',
     borderWidth: 1.5,
     borderColor: 'rgba(255,255,255,0.5)',
   },
@@ -90,7 +89,6 @@ module.exports = StyleSheet.create({
     height: 20,
     borderRadius: 50,
     backgroundColor: 'white',
-    borderColor: '#0C53B0',
     borderWidth: 3,
   },
 });

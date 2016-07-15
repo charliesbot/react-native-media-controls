@@ -77,20 +77,19 @@ class Main extends Component {
   };
 
   exitFullScreen() {
-    // Orientation.lockToPortrait();
-    // Orientation.unlockAllOrientations();
   };
 
   enterFullScreen() {
-    // Orientation.lockToLandscape();
-    // Orientation.unlockAllOrientations();
   }
 
   onFullScreen() {
-    // Orientation.getOrientation((err, orientation) => {
-    //   orientation === "LANDSCAPE" ? this.exitFullScreen() : this.enterFullScreen();
-    // });
   };
+
+  renderToolbar() {
+    return (
+      <View style={styles.toolbar}></View>
+    );
+  }
 
   render() {
     return (
@@ -108,6 +107,8 @@ class Main extends Component {
           onProgress={this.onProgress}
         />
         <MediaControls
+          mainColor="red"
+          toolbar={this.renderToolbar()}
           playerState={this.state.playerState}
           isLoading={this.state.isLoading}
           progress={this.state.currentTime}
@@ -124,6 +125,11 @@ class Main extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  toolbar: {
+    backgroundColor: 'blue',
+    height: 20,
+    width: 20,
   },
   mediaPlayer: {
     position: 'absolute',
