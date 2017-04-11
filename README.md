@@ -3,10 +3,10 @@ A sweet UI component to manipulate your media
 
 ![mediac](https://cloud.githubusercontent.com/assets/10927770/16887015/3380f59a-4a9d-11e6-9e3f-8d1ca29aea03.gif)
 
-##Installation
+## Installation
 `npm i react-native-media-controls --save`
 
-##Usage##
+## Usage
 ```js
 // Require the module
 import {MediaControls, PLAYER_STATE} from 'react-native-media-controls';
