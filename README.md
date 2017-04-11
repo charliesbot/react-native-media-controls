@@ -41,7 +41,7 @@ import {MediaControls, PLAYER_STATE} from 'react-native-media-controls';
   }
 
 ```
-##Props##
+## Props
 | Prop         | Type     | Optional | Default                | Description                                                          |
 |--------------|----------|----------|------------------------|----------------------------------------------------------------------|
 | toolbar      | node     | Yes      |                        | Add a custom view on the top of the controls                         |
@@ -56,12 +56,12 @@ import {MediaControls, PLAYER_STATE} from 'react-native-media-controls';
 | onReplay     | function | Yes      |                        | Triggered when the replay button is pressed                          |
 | onSeek       | function | No       |                        | Triggered when the user is interacting with the slider               |
 
-##Constants##
+## Constants 
 ```js
   PLAYING,
   PAUSED,
   ENDED,
 ```  
-##Example##
+## Example
 Refer to the example folder to find an implementation of this project
 
