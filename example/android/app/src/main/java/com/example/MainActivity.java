@@ -1,7 +1,6 @@
 package com.example;
 
 import com.facebook.react.ReactActivity;
-import com.brentvatne.RCTVideo.ReactVideoPackage;
 
 public class MainActivity extends ReactActivity {
 
