@@ -1,69 +1,56 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+
+import React, { Component, type Node } from 'react';
 import {
-  Platform,
   TouchableOpacity,
   View,
   Text,
   ActivityIndicator,
   Animated,
   Image,
-  UIManager,
   TouchableWithoutFeedback,
 } from 'react-native';
+import Slider from 'react-native-slider';
 import styles from './MediaControlsStyles';
 import { humanizeVideoDuration } from './Utils';
-import { PLAYER_STATE } from './Constants';
-import Slider from 'react-native-slider';
+import { PLAYER_STATES, type PlayerState } from './Constants';
 
-class MediaControls extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      opacity: new Animated.Value(1),
-      isVisible: true,
-    };
-  }
+type Props = {
+  toolbar: Node,
+  mainColor: string,
+  isLoading: boolean,
+  progress: number,
+  duration: number,
+  playerState: PlayerState,
+  onFullScreen: Function,
+  onPaused: Function,
+  onReplay: Function,
+  onSeek: Function,
+};
+
+type State = {
+  opacity: Object,
+  isVisible: boolean,
+};
+
+class MediaControls extends Component<Props, State> {
+  static defaultProps = {
+    mainColor: 'rgba(12, 83, 175, 0.9)',
+  };
+
+  state = {
+    opacity: new Animated.Value(1),
+    isVisible: true,
+  };
 
   componentDidMount() {
-    // TODO remove when android supports animations
-    if (Platform.OS === 'android')
-      UIManager.setLayoutAnimationEnabledExperimental(true);
     this.fadeOutControls(5000);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.playerState === PLAYER_STATE.ENDED) {
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.playerState === PLAYER_STATES.ENDED) {
       this.fadeInControls(false);
     }
-  }
-
-  getPlayerStateIcon(playerState) {
-    switch (playerState) {
-      case PLAYER_STATE.PAUSED:
-        return require('./assets/ic_play.png');
-      case PLAYER_STATE.PLAYING:
-        return require('./assets/ic_pause.png');
-      case PLAYER_STATE.ENDED:
-        return require('./assets/ic_replay.png');
-    }
-  }
-
-  setPlayerControls(playerState) {
-    let icon = this.getPlayerStateIcon(playerState);
-    let pressAction =
-      playerState === PLAYER_STATE.ENDED ? this.onReplay : this.onPause;
-    return (
-      <TouchableOpacity
-        style={[styles.playButton, { backgroundColor: this.props.mainColor }]}
-        onPress={pressAction}
-      >
-        <Image source={icon} style={styles.playIcon} />
-      </TouchableOpacity>
-    );
-  }
-
-  setLoadingView() {
-    return <ActivityIndicator size="large" color="#FFF" />;
   }
 
   onReplay = () => {
@@ -73,46 +60,79 @@ class MediaControls extends Component {
 
   onPause = () => {
     const { playerState, onPaused } = this.props;
-    const { PLAYING, PAUSED } = PLAYER_STATE;
+    const { PLAYING, PAUSED } = PLAYER_STATES;
     switch (playerState) {
       case PLAYING: {
-        return this.cancelAnimation();
+        this.cancelAnimation();
+        break;
       }
       case PAUSED: {
-        return this.fadeOutControls(5000);
+        this.fadeOutControls(5000);
+        break;
       }
+      default:
+        break;
     }
-    onPaused();
+    return onPaused();
+  };
+
+  setLoadingView = () => <ActivityIndicator size="large" color="#FFF" />;
+
+  setPlayerControls = (playerState: PlayerState) => {
+    const icon = this.getPlayerStateIcon(playerState);
+    const pressAction =
+      playerState === PLAYER_STATES.ENDED ? this.onReplay : this.onPause;
+    return (
+      <TouchableOpacity
+        style={[styles.playButton, { backgroundColor: this.props.mainColor }]}
+        onPress={pressAction}
+      >
+        <Image source={icon} style={styles.playIcon} />
+      </TouchableOpacity>
+    );
+  };
+
+  getPlayerStateIcon = (playerState: PlayerState) => {
+    switch (playerState) {
+      case PLAYER_STATES.PAUSED:
+        return require('./assets/ic_play.png');
+      case PLAYER_STATES.PLAYING:
+        return require('./assets/ic_pause.png');
+      case PLAYER_STATES.ENDED:
+        return require('./assets/ic_replay.png');
+      default:
+        return null;
+    }
   };
 
   cancelAnimation = () => {
-    this.state.opacity.stopAnimation(value => {
+    this.state.opacity.stopAnimation(() => {
       this.setState({ isVisible: true });
     });
-  }
+  };
 
   toggleControls = () => {
     // value is the last value of the animation when stop animation was called.
     // As this is an opacity effect, I (Charlie) used the value (0 or 1) as a boolean
-    this.state.opacity.stopAnimation(value => {
+    this.state.opacity.stopAnimation((value: number) => {
       this.setState({ isVisible: !!value });
-      value ? this.fadeOutControls() : this.fadeInControls();
+      return value ? this.fadeOutControls() : this.fadeInControls();
     });
   };
 
-  fadeOutControls = (delay = 0) => {
+  fadeOutControls = (delay: number = 0) => {
     Animated.timing(this.state.opacity, {
       toValue: 0,
       duration: 300,
       delay,
     }).start(result => {
-      //I noticed that the callback is called twice, when it is invoked and when it completely finished
-      //This prevents some flickering
+      /* I noticed that the callback is called twice, when it is invoked and when it completely finished
+      This prevents some flickering */
       if (result.finished) this.setState({ isVisible: false });
     });
   };
 
-  fadeInControls = (loop = true) => {
+  fadeInControls = (loop: boolean = true) => {
     this.setState({ isVisible: true });
     Animated.timing(this.state.opacity, {
       toValue: 1,
@@ -126,14 +146,14 @@ class MediaControls extends Component {
   };
 
   dragging = () => {
-    if (this.props.playerState === PLAYER_STATE.PAUSED) return;
+    if (this.props.playerState === PLAYER_STATES.PAUSED) return;
     this.onPause();
   };
 
-  seekVideo = (value) => {
+  seekVideo = (value: number) => {
     this.props.onSeek(value);
     this.onPause();
-  }
+  };
 
   renderControls() {
     const {
@@ -145,7 +165,7 @@ class MediaControls extends Component {
       progress,
       toolbar,
     } = this.props;
-    //this let us block the controls
+    // this let us block the controls
     if (!this.state.isVisible) return null;
     return (
       <View style={styles.container}>
@@ -199,23 +219,5 @@ class MediaControls extends Component {
     );
   }
 }
-
-MediaControls.propTypes = {
-  toolbar: PropTypes.node,
-  mainColor: PropTypes.string,
-  isLoading: PropTypes.bool,
-  isFullScreen: PropTypes.bool,
-  progress: PropTypes.number,
-  duration: PropTypes.number,
-  playerState: PropTypes.number,
-  onFullScreen: PropTypes.func,
-  onPaused: PropTypes.func,
-  onReplay: PropTypes.func,
-  onSeek: PropTypes.func,
-};
-
-MediaControls.defaultProps = {
-  mainColor: 'rgba(12, 83, 175, 0.9)',
-};
 
 export default MediaControls;
