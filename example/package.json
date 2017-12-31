@@ -6,9 +6,9 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "react": "15.2.0",
-    "react-native": "^0.29.1",
-    "react-native-video": "^0.8.0",
-    "react-native-media-controls": "file:.."
+    "react": "16.0.0",
+    "react-native": "0.51.0",
+    "react-native-media-controls": "file:..",
+    "react-native-video": "^2.0.0"
   }
 }

@@ -1,21 +1,9 @@
-/**
- * Created by Charlie on 7/5/16.
- */
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+// @flow
 
-import React, {Component} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import Video from 'react-native-video';
-import {MediaControls, PLAYER_STATE} from 'react-native-media-controls';
-
+import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 
 class Main extends Component {
   constructor(props) {
@@ -32,63 +20,60 @@ class Main extends Component {
     this.state = {
       isLoading: true,
       isFullScreen: false,
-      playerState: PLAYER_STATE.PLAYING,
+      playerState: PLAYER_STATES.PLAYING,
       paused: false,
       currentTime: 0,
       duration: 0,
-    }
+    };
   }
 
   onSeek(seek) {
     this.refs.videoPlayer.seek(seek);
-  };
+  }
 
   onPaused() {
     this.setState({
       paused: !this.state.paused,
-      playerState: !this.state.paused ? PLAYER_STATE.PAUSED : PLAYER_STATE.PLAYING
+      playerState: !this.state.paused
+        ? PLAYER_STATES.PAUSED
+        : PLAYER_STATES.PLAYING,
     });
-  };
+  }
 
   onReplay() {
-    this.setState({playerState: PLAYER_STATE.PLAYING});
+    this.setState({ playerState: PLAYER_STATES.PLAYING });
     this.refs.videoPlayer.seek(0);
   }
 
   onProgress(data) {
     if (this.state.isLoading) return null;
-    this.setState({currentTime: data.currentTime});
-  };
-
-  onLoad(data) {
-    this.setState({duration: data.duration, isLoading: false});
-  };
-
-  onLoadStart(data) {
-    this.setState({isLoading: true});
-  };
-
-  onEnd() {
-    this.setState({playerState: PLAYER_STATE.ENDED});
-  };
-
-  onError() {
-    console.log("test test ", error);
-  };
-
-  exitFullScreen() {
-  };
-
-  enterFullScreen() {
+    this.setState({ currentTime: data.currentTime });
   }
 
-  onFullScreen() {
-  };
+  onLoad(data) {
+    this.setState({ duration: data.duration, isLoading: false });
+  }
+
+  onLoadStart(data) {
+    this.setState({ isLoading: true });
+  }
+
+  onEnd() {
+    this.setState({ playerState: PLAYER_STATES.ENDED });
+  }
+
+  onError() {
+    console.log('test test ', error);
+  }
+
+  exitFullScreen() {}
+
+  enterFullScreen() {}
+
+  onFullScreen() {}
 
   renderToolbar() {
-    return (
-      <View style={styles.toolbar}></View>
-    );
+    return <View style={styles.toolbar} />;
   }
 
   render() {
@@ -98,7 +83,7 @@ class Main extends Component {
           ref="videoPlayer"
           style={styles.mediaPlayer}
           resizeMode="cover"
-          source={{uri: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'}}
+          source={{ uri: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
           volume={0.0}
           paused={this.state.paused}
           onEnd={this.onEnd}
