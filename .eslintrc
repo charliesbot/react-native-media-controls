@@ -12,12 +12,17 @@
     "react-native/react-native": true
   },
   "rules": {
-    "react/jsx-filename-extension": [0],
+    "global-require": "off",
+    "import/extensions": ["error", "never", { "packages": "always" }],
     "import/no-named-as-default": [0],
+    "import/no-unresolved": [
+      "error",
+      { ignore: ["^react$", "^react-native$"] }
+    ],
+    "react-native/no-color-literals": 2,
+    "react-native/no-inline-styles": 2,
     "react-native/no-unused-styles": 2,
     "react-native/split-platform-components": 2,
-    "react-native/no-inline-styles": 2,
-    "react-native/no-color-literals": 2,
-    "import/no-unresolved": ["error", { ignore: ["^react$", "^react-native$"] }]
+    "react/jsx-filename-extension": [0]
   }
 }

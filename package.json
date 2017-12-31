@@ -9,9 +9,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "babel src/ -d lib/",
-    "flow": "npm run flow-typed && flow check ./",
-    "flow-typed": "flow-typed install --overwrite",
-    "flow:check": "flow check ./",
+    "flow": "flow check ./",
     "lint": "eslint ./",
     "prepublish": "yarn run build"
   },
@@ -45,11 +43,11 @@
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
     "eslint-plugin-react-native": "^3.2.0",
-    "flow-bin": "^0.62.0",
-    "flow-typed": "^2.2.3"
+    "flow-bin": "^0.57.0",
+    "react-native": "^0.51.0"
   },
   "peerDependencies": {
-    "react": "^16.0.0",
-    "react-native": "^0.41.2"
+    "react": "*",
+    "react-native": "*"
   }
 }

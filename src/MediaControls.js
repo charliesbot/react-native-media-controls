@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Slider from 'react-native-slider';
 import styles from './MediaControlsStyles';
-import { humanizeVideoDuration } from './Utils';
+import humanizeVideoDuration from './Utils';
 import PLAYER_STATES, { type PlayerState } from './Constants';
 
 type Props = {
@@ -97,9 +97,9 @@ class MediaControls extends Component<Props, State> {
       case PLAYER_STATES.PAUSED:
         return require('../assets/ic_play.png');
       case PLAYER_STATES.PLAYING:
-        return require('./assets/ic_pause.png');
+        return require('../assets/ic_pause.png');
       case PLAYER_STATES.ENDED:
-        return require('./assets/ic_replay.png');
+        return require('../assets/ic_replay.png');
       default:
         return null;
     }
