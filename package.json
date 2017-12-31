@@ -1,10 +1,10 @@
 {
   "name": "react-native-media-controls",
   "description": "A sweet UI to control your video and audio components",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "author": {
     "name": "Charlie L",
-    "email": "carlyeah@me.com"
+    "email": "charliesbot@gmail.com"
   },
   "license": "MIT",
   "keywords": [
@@ -22,6 +22,6 @@
     "url": "git@github.com:charliesbox/react-native-media-controls.git"
   },
   "dependencies": {
-    "react-native-slider": "^0.9.0"
+    "react-native-slider": "^0.11.0"
   }
 }

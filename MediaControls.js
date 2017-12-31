@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   Platform,
   TouchableOpacity,
@@ -11,19 +11,13 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import styles from './MediaControlsStyles';
-import Utils from './Utils';
-import {PLAYER_STATE} from './Constants';
+import { humanizeVideoDuration } from './Utils';
+import { PLAYER_STATE } from './Constants';
 import Slider from 'react-native-slider';
 
 class MediaControls extends Component {
   constructor(props) {
     super(props);
-    this.toggleControls = this.toggleControls.bind(this);
-    this.cancelAnimation = this.cancelAnimation.bind(this);
-    this.dragging = this.dragging.bind(this);
-    this.seekVideo = this.seekVideo.bind(this);
-    this.onPause = this.onPause.bind(this);
-    this.onReplay = this.onReplay.bind(this);
     this.state = {
       opacity: new Animated.Value(1),
       isVisible: true,
@@ -32,7 +26,8 @@ class MediaControls extends Component {
 
   componentDidMount() {
     // TODO remove when android supports animations
-    if (Platform.OS === 'android') UIManager.setLayoutAnimationEnabledExperimental(true);
+    if (Platform.OS === 'android')
+      UIManager.setLayoutAnimationEnabledExperimental(true);
     this.fadeOutControls(5000);
   }
 
@@ -59,118 +54,133 @@ class MediaControls extends Component {
       playerState === PLAYER_STATE.ENDED ? this.onReplay : this.onPause;
     return (
       <TouchableOpacity
-        style={[styles.playButton, {backgroundColor: this.props.mainColor}]}
+        style={[styles.playButton, { backgroundColor: this.props.mainColor }]}
         onPress={pressAction}
       >
-        <Image source={icon} style={styles.playIcon}/>
+        <Image source={icon} style={styles.playIcon} />
       </TouchableOpacity>
     );
   }
 
   setLoadingView() {
-    return (
-      <ActivityIndicator size="large" color="#FFF"/>
-    );
+    return <ActivityIndicator size="large" color="#FFF" />;
   }
 
-  onReplay() {
+  onReplay = () => {
     this.fadeOutControls(5000);
     this.props.onReplay();
-  }
+  };
 
-  onPause() {
-    if (this.props.playerState === PLAYER_STATE.PLAYING) {
-      this.cancelAnimation();
+  onPause = () => {
+    const { playerState, onPaused } = this.props;
+    const { PLAYING, PAUSED } = PLAYER_STATE;
+    switch (playerState) {
+      case PLAYING: {
+        return this.cancelAnimation();
+      }
+      case PAUSED: {
+        return this.fadeOutControls(5000);
+      }
     }
-    if (this.props.playerState === PLAYER_STATE.PAUSED) {
-      this.fadeOutControls(5000);
-    }
-    this.props.onPaused();
-  }
+    onPaused();
+  };
 
-  cancelAnimation() {
-    this.state.opacity.stopAnimation((value) => {
-      this.setState({isVisible: true})
+  cancelAnimation = () => {
+    this.state.opacity.stopAnimation(value => {
+      this.setState({ isVisible: true });
     });
   }
 
-  toggleControls() {
+  toggleControls = () => {
     // value is the last value of the animation when stop animation was called.
     // As this is an opacity effect, I (Charlie) used the value (0 or 1) as a boolean
-    this.state.opacity.stopAnimation(
-      (value) => {
-        this.setState({isVisible: !!value});
-        value ? this.fadeOutControls() : this.fadeInControls();
-      });
-  }
+    this.state.opacity.stopAnimation(value => {
+      this.setState({ isVisible: !!value });
+      value ? this.fadeOutControls() : this.fadeInControls();
+    });
+  };
 
-  fadeOutControls(delay = 0) {
-    Animated.timing(this.state.opacity, {toValue: 0, duration: 300, delay}).start((result) => {
+  fadeOutControls = (delay = 0) => {
+    Animated.timing(this.state.opacity, {
+      toValue: 0,
+      duration: 300,
+      delay,
+    }).start(result => {
       //I noticed that the callback is called twice, when it is invoked and when it completely finished
       //This prevents some flickering
-      if (result.finished)
-        this.setState({isVisible: false});
+      if (result.finished) this.setState({ isVisible: false });
     });
-  }
+  };
 
-  fadeInControls(loop = true) {
-    this.setState({isVisible: true});
-    Animated.timing(this.state.opacity, {toValue: 1, duration: 300, delay: 0}).start(() => {
+  fadeInControls = (loop = true) => {
+    this.setState({ isVisible: true });
+    Animated.timing(this.state.opacity, {
+      toValue: 1,
+      duration: 300,
+      delay: 0,
+    }).start(() => {
       if (loop) {
         this.fadeOutControls(5000);
       }
     });
+  };
 
-  }
-
-  dragging() {
+  dragging = () => {
     if (this.props.playerState === PLAYER_STATE.PAUSED) return;
     this.onPause();
-  }
+  };
 
-  seekVideo(value) {
+  seekVideo = (value) => {
     this.props.onSeek(value);
     this.onPause();
   }
 
   renderControls() {
+    const {
+      duration,
+      isLoading,
+      mainColor,
+      onFullScreen,
+      playerState,
+      progress,
+      toolbar,
+    } = this.props;
     //this let us block the controls
     if (!this.state.isVisible) return null;
     return (
       <View style={styles.container}>
-        <View style={[styles.controlsRow, styles.toolbarRow]}>
-          {this.props.toolbar}
-        </View>
+        <View style={[styles.controlsRow, styles.toolbarRow]}>{toolbar}</View>
         <View style={[styles.controlsRow]}>
-          {
-            this.props.isLoading
-              ? this.setLoadingView()
-              : this.setPlayerControls(this.props.playerState)
-          }
+          {isLoading
+            ? this.setLoadingView()
+            : this.setPlayerControls(playerState)}
         </View>
         <View style={[styles.controlsRow, styles.progressContainer]}>
           <View style={styles.progressColumnContainer}>
             <View style={[styles.timerLabelsContainer]}>
               <Text style={styles.timerLabel}>
-                {Utils.humanizeVideoDuration(this.props.progress)}
+                {humanizeVideoDuration(progress)}
               </Text>
               <Text style={styles.timerLabel}>
-                {Utils.humanizeVideoDuration(this.props.duration)}
+                {humanizeVideoDuration(duration)}
               </Text>
             </View>
             <Slider
               style={styles.progressSlider}
               onValueChange={this.dragging}
               onSlidingComplete={this.seekVideo}
-              maximumValue={Math.floor(this.props.duration)}
-              value={Math.floor(this.props.progress)}
+              maximumValue={Math.floor(duration)}
+              value={Math.floor(progress)}
               trackStyle={styles.track}
-              thumbStyle={[styles.thumb, {borderColor: this.props.mainColor}]}
-              minimumTrackTintColor={this.props.mainColor}
+              thumbStyle={[styles.thumb, { borderColor: mainColor }]}
+              minimumTrackTintColor={mainColor}
             />
           </View>
-          <TouchableOpacity style={styles.fullScreenContainer} onPress={this.props.onFullScreen}>
-            <Image source={require('./assets/ic_fullscreen.png')}/>
+          <TouchableOpacity
+            style={styles.fullScreenContainer}
+            onPress={onFullScreen}
+          >
+            <Image source={require('./assets/ic_fullscreen.png')} />
           </TouchableOpacity>
         </View>
       </View>
@@ -180,7 +190,9 @@ class MediaControls extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={this.toggleControls}>
-        <Animated.View style={[styles.container, { opacity: this.state.opacity }]}>
+        <Animated.View
+          style={[styles.container, { opacity: this.state.opacity }]}
+        >
           {this.renderControls()}
         </Animated.View>
       </TouchableWithoutFeedback>
@@ -207,4 +219,3 @@ MediaControls.defaultProps = {
 };
 
 export default MediaControls;
-
