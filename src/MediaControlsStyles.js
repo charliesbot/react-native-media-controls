@@ -1,6 +1,8 @@
+// @flow
+
 import { StyleSheet } from 'react-native';
 
-module.exports = StyleSheet.create({
+export default StyleSheet.create({
   container: {
     position: 'absolute',
     flex: 1,

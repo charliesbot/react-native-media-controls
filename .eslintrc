@@ -1,16 +1,23 @@
 {
   "parser": "babel-eslint",
-  "plugins": [
-    "flowtype"
-  ],
+  "plugins": ["react", "react-native", "flowtype"],
   "extends": [
     "airbnb",
     "prettier",
     "prettier/flowtype",
-    "prettier/react"
+    "prettier/react",
+    "plugin:flowtype/recommended"
   ],
+  "env": {
+    "react-native/react-native": true
+  },
   "rules": {
     "react/jsx-filename-extension": [0],
-    "import/no-named-as-default": [0]
+    "import/no-named-as-default": [0],
+    "react-native/no-unused-styles": 2,
+    "react-native/split-platform-components": 2,
+    "react-native/no-inline-styles": 2,
+    "react-native/no-color-literals": 2,
+    "import/no-unresolved": ["error", { ignore: ["^react$", "^react-native$"] }]
   }
 }
