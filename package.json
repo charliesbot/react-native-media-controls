@@ -1,12 +1,16 @@
 {
   "name": "react-native-media-controls",
   "description": "A sweet UI to control your video and audio components",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "author": {
     "name": "Charlie L",
     "email": "charliesbot@gmail.com"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "babel src/ -d lib/",
+    "prepublish": "yarn run build"
+  },
   "keywords": [
     "react-native",
     "ios",
@@ -16,12 +20,18 @@
     "media",
     "control"
   ],
-  "main": "index.js",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:charliesbox/react-native-media-controls.git"
   },
   "dependencies": {
     "react-native-slider": "^0.11.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-react-native": "^4.0.0",
+    "flow-bin": "^0.62.0"
   }
 }
