@@ -1,6 +1,8 @@
+// @flow
+
 import MediaControls from './MediaControls';
-import { PLAYER_STATE } from './Constants';
+import PLAYER_STATES from './Constants';
 
 export default MediaControls;
 
-export { PLAYER_STATE };
+export { PLAYER_STATES };
