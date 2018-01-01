@@ -9,32 +9,34 @@ A sweet UI component to manipulate your media
 ## Usage
 ```js
 // Require the module
-import MediaControls, { PLAYER_STATE } from 'react-native-media-controls';
+import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 
   render() {
     return (
       <View style={styles.container}>
         <Video
-          ref="videoPlayer"
-          style={styles.mediaPlayer}
-          resizeMode="cover"
-          source={{uri: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'}}
-          volume={0.0}
-          paused={this.state.paused}
           onEnd={this.onEnd}
           onLoad={this.onLoad}
           onLoadStart={this.onLoadStart}
           onProgress={this.onProgress}
+          paused={this.state.paused}
+          ref={videoPlayer => (this.videoPlayer = videoPlayer)}
+          resizeMode="cover"
+          source={{ uri: 'https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
+          style={styles.mediaPlayer}
+          volume={0.0}
         />
         <MediaControls
-          toolbar={this.renderToolbar()}
-          playerState={this.state.playerState}
-          isLoading={this.state.isLoading}
-          progress={this.state.currentTime}
           duration={this.state.duration}
+          isLoading={this.state.isLoading}
+          mainColor="orange"
+          onFullScreen={this.onFullScreen}
           onPaused={this.onPaused}
-          onSeek={this.onSeek}
           onReplay={this.onReplay}
+          onSeek={this.onSeek}
+          playerState={this.state.playerState}
+          progress={this.state.currentTime}
+          toolbar={this.renderToolbar()}
         />
       </View>
     );
