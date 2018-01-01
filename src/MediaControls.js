@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Slider from 'react-native-slider';
 import styles from './MediaControlsStyles';
-import humanizeVideoDuration from './Utils';
+import { humanizeVideoDuration, noop } from './Utils';
 import PLAYER_STATES, { type PlayerState } from './Constants';
 
 type Props = {
@@ -27,6 +27,7 @@ type Props = {
   onPaused: Function,
   onReplay: Function,
   onSeek: Function,
+  onSeeking: Function,
 };
 
 type State = {
@@ -36,7 +37,12 @@ type State = {
 
 class MediaControls extends Component<Props, State> {
   static defaultProps = {
+    isFullScreen: false,
+    isLoading: false,
     mainColor: 'rgba(12, 83, 175, 0.9)',
+    onFullScreen: noop,
+    onReplay: noop,
+    onSeeking: noop,
   };
 
   state = {
@@ -151,8 +157,12 @@ class MediaControls extends Component<Props, State> {
     });
   };
 
-  dragging = () => {
-    if (this.props.playerState === PLAYER_STATES.PAUSED) return;
+  dragging = (value: number) => {
+    const { onSeeking, playerState } = this.props;
+
+    onSeeking(value);
+    if (playerState === PLAYER_STATES.PAUSED) return;
+
     this.onPause();
   };
 

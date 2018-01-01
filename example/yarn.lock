@@ -3491,7 +3491,7 @@ react-devtools-core@^2.5.0:
     ws "^2.0.3"
 
 "react-native-media-controls@file:..":
-  version "0.1.1"
+  version "1.0.0"
   dependencies:
     react-native-slider "^0.11.0"
 
