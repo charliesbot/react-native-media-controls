@@ -1,5 +1,6 @@
 // @flow
 
+// eslint ignore next $FlowFixMe
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({

@@ -8,4 +8,3 @@ const PLAYER_STATES = {
 
 export type PlayerState = $Keys<typeof PLAYER_STATES>;
 export default PLAYER_STATES;
-
