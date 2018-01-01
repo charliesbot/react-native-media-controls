@@ -9,7 +9,8 @@
   "dependencies": {
     "react": "16.0.0",
     "react-native": "0.51.0",
-    "react-native-video": "^2.0.0"
+    "react-native-video": "^2.0.0",
+    "react-native-media-controls": "file:.."
   },
   "devDependencies": {
     "babel-jest": "22.0.4",

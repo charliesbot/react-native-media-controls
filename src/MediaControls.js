@@ -73,7 +73,9 @@ class MediaControls extends Component<Props, State> {
       default:
         break;
     }
-    return onPaused();
+
+    const newPlayerState = playerState === PLAYING ? PAUSED : PLAYING;
+    return onPaused(newPlayerState);
   };
 
   setLoadingView = () => <ActivityIndicator size="large" color="#FFF" />;
@@ -95,11 +97,11 @@ class MediaControls extends Component<Props, State> {
   getPlayerStateIcon = (playerState: PlayerState) => {
     switch (playerState) {
       case PLAYER_STATES.PAUSED:
-        return require('../assets/ic_play.png');
+        return require('./assets/ic_play.png');
       case PLAYER_STATES.PLAYING:
-        return require('../assets/ic_pause.png');
+        return require('./assets/ic_pause.png');
       case PLAYER_STATES.ENDED:
-        return require('../assets/ic_replay.png');
+        return require('./assets/ic_replay.png');
       default:
         return null;
     }
