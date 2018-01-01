@@ -62,6 +62,8 @@ class Main extends Component {
     </View>
   );
 
+  onSeeking = currentTime => this.setState({ currentTime });
+
   render() {
     return (
       <View style={styles.container}>
@@ -85,6 +87,7 @@ class Main extends Component {
           onPaused={this.onPaused}
           onReplay={this.onReplay}
           onSeek={this.onSeek}
+          onSeeking={this.onSeeking}
           playerState={this.state.playerState}
           progress={this.state.currentTime}
           toolbar={this.renderToolbar()}
