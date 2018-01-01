@@ -9,12 +9,12 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
-      isFullScreen: false,
-      playerState: PLAYER_STATES.PLAYING,
-      paused: false,
       currentTime: 0,
       duration: 0,
+      isFullScreen: false,
+      isLoading: true,
+      paused: false,
+      playerState: PLAYER_STATES.PLAYING,
     };
   }
 
