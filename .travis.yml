@@ -6,5 +6,5 @@ dist: trusty
 cache: yarn
 
 script:
-  - npm test
+  - yarn test
 

@@ -9,6 +9,7 @@ import {
   Animated,
   Image,
   TouchableWithoutFeedback,
+  // eslint ignore next $FlowFixMe
 } from 'react-native';
 import Slider from 'react-native-slider';
 import styles from './MediaControlsStyles';
@@ -97,10 +98,13 @@ class MediaControls extends Component<Props, State> {
   getPlayerStateIcon = (playerState: PlayerState) => {
     switch (playerState) {
       case PLAYER_STATES.PAUSED:
+        // eslint ignore next $FlowFixMe
         return require('./assets/ic_play.png');
       case PLAYER_STATES.PLAYING:
+        // eslint ignore next $FlowFixMe
         return require('./assets/ic_pause.png');
       case PLAYER_STATES.ENDED:
+        // eslint ignore next $FlowFixMe
         return require('./assets/ic_replay.png');
       default:
         return null;
@@ -167,8 +171,12 @@ class MediaControls extends Component<Props, State> {
       progress,
       toolbar,
     } = this.props;
+
     // this let us block the controls
     if (!this.state.isVisible) return null;
+
+    // eslint ignore next $FlowFixMe
+    const fullScreenImage = require('./assets/ic_fullscreen.png');
     return (
       <View style={styles.container}>
         <View style={[styles.controlsRow, styles.toolbarRow]}>{toolbar}</View>
@@ -202,7 +210,7 @@ class MediaControls extends Component<Props, State> {
             style={styles.fullScreenContainer}
             onPress={onFullScreen}
           >
-            <Image source={require('./assets/ic_fullscreen.png')} />
+            <Image source={fullScreenImage} />
           </TouchableOpacity>
         </View>
       </View>
