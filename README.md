@@ -54,7 +54,7 @@ import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 | duration     | number   | No       |                        | Total duration of the media                                          |
 | playerState  | number   | No       |                        | Could be PLAYING, PAUSED or ENDED (take a look at constants section) |
 | onFullScreen | function | Yes      |                        | Triggered when the fullscreen button is pressed                      |
-| onPaused     | function | No       |                        | Triggered when the play/pause button is pressed                      |
+| onPaused     | function | No       |                        | Triggered when the play/pause button is pressed. It returns the new toggled value (PLAYING or PAUSED)                     |
 | onReplay     | function | Yes      |                        | Triggered when the replay button is pressed                          |
 | onSeek       | function | No       |                        | Triggered when the user is interacting with the slider               |
 
