@@ -11,7 +11,8 @@
     "build": "babel src/ -d lib/ src/assets --out-dir lib/ --copy-files",
     "flow": "flow check ./",
     "lint": "eslint ./",
-    "prepublish": "yarn run build"
+    "prepublish": "yarn run build",
+    "test": "yarn run lint"
   },
   "keywords": [
     "react-native",
