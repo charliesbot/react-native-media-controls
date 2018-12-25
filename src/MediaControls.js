@@ -212,7 +212,10 @@ class MediaControls extends Component<Props, State> {
               maximumValue={Math.floor(duration)}
               value={Math.floor(progress)}
               trackStyle={styles.track}
-              thumbStyle={[styles.thumb, { borderColor: mainColor }]}
+              thumbStyle={[
+                styles.thumb,
+                { borderColor: mainColor, backgroundColor: mainColor },
+              ]}
               minimumTrackTintColor={mainColor}
             />
           </View>

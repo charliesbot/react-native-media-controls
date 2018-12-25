@@ -11,7 +11,7 @@ export default StyleSheet.create({
     paddingVertical: 13,
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: 'rgba(45, 59, 62, 0.4)',
+    backgroundColor: 'rgba(45, 59, 62, 0.0)',
     justifyContent: 'space-between',
     top: 0,
     left: 0,
@@ -42,9 +42,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     width: 50,
     height: 50,
-    borderRadius: 3,
-    borderWidth: 1.5,
-    borderColor: 'rgba(255,255,255,0.5)',
+    borderRadius: 25,
   },
   playIcon: {
     width: 22,
@@ -84,14 +82,13 @@ export default StyleSheet.create({
     color: 'white',
   },
   track: {
-    height: 5,
+    height: 2,
     borderRadius: 1,
   },
   thumb: {
     width: 20,
     height: 20,
     borderRadius: 50,
-    backgroundColor: 'white',
-    borderWidth: 3,
+    borderWidth: 1,
   },
 });
