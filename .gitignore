@@ -2,8 +2,7 @@
 #
 .DS_Store
 
-# Xcode
-#
+# Xcode 
 build/
 *.pbxuser
 !default.pbxuser
@@ -45,3 +44,5 @@ example/android/gradlew
 example/android/gradlew.bat
 
 lib/
+
+yarn-error.log
