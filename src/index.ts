@@ -1,7 +1,5 @@
-// @flow
-
 import MediaControls from './MediaControls';
-import PLAYER_STATES from './Constants';
+import PLAYER_STATES from './constants';
 
 export default MediaControls;
 
