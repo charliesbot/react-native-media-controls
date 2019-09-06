@@ -3,6 +3,12 @@ import {StyleSheet, Text, View} from 'react-native';
 import Video from 'react-native-video';
 import MediaControls, {PLAYER_STATES} from 'react-native-media-controls';
 
+const onError = () => alert('Oh! ', error);
+
+const exitFullScreen = () => {};
+
+const enterFullScreen = () => {};
+
 const onFullScreen = () => {};
 
 const Main = () => {
