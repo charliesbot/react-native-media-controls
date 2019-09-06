@@ -8,14 +8,16 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "build": "babel src/ -d lib/ src/assets --out-dir lib/ --copy-files --extensions '.ts,.tsx'",
+    "build2": "babel src/ -d lib/ src/assets --out-dir lib/ --copy-files --extensions '.ts,.tsx'",
+    "copy-assets": "cp -r ./src/assets/ ./lib/assets/",
+    "build": "tsc",
     "clean": "rimraf lib",
     "type:check": "tsc",
     "format": "eslint ./**/*.ts --fix",
     "lint": "eslint --cache --ext .ts,.tsx --format=pretty ./",
     "lint-staged": "lint-staged",
     "precommit": "lint-staged",
-    "prepublish": "yarn lint && yarn type:check && yarn clean && yarn build",
+    "prepublish": "yarn lint && yarn clean && yarn build && yarn copy-assets",
     "test": "yarn lint"
   },
   "keywords": [
@@ -28,6 +30,7 @@
     "control"
   ],
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git@github.com:charliesbox/react-native-media-controls.git"

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "module": "commonjs",
     "strict": true,
     "emitDecoratorMetadata": true,
@@ -13,5 +14,5 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "demo"]
+  "exclude": ["node_modules", "example"]
 }

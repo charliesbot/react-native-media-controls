@@ -1,13 +1,7 @@
-import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState, useRef} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import Video from 'react-native-video';
-import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
-
-const onError = () => alert('Oh! ', error);
-
-const exitFullScreen = () => {};
-
-const enterFullScreen = () => {};
+import MediaControls, {PLAYER_STATES} from 'react-native-media-controls';
 
 const onFullScreen = () => {};
 
@@ -68,7 +62,7 @@ const Main = () => {
         paused={paused}
         ref={videoPlayer}
         resizeMode="cover"
-        source={{ uri: 'https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
+        source={{uri: 'https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'}}
         style={styles.mediaPlayer}
         volume={0.0}
       />

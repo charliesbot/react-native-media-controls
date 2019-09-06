@@ -22,6 +22,7 @@ const MediaControls: React.FC<Props> = props => {
     playerState,
     progress,
     toolbar,
+    onReplay: onReplayCallback,
     fadeOutDelay = 5000,
     mainColor = 'rgba(12, 83, 175, 0.9)',
   } = props;
@@ -57,7 +58,7 @@ const MediaControls: React.FC<Props> = props => {
 
   const onReplay = () => {
     fadeOutControls(fadeOutDelay);
-    onReplay();
+    onReplayCallback();
   };
 
   const cancelAnimation = () => opacity.stopAnimation(() => setIsVisible(true));
