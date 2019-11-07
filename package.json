@@ -1,7 +1,7 @@
 {
   "name": "react-native-media-controls",
   "description": "A sweet UI to control your video and audio components",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "author": {
     "name": "Charlie L",
     "email": "charliesbot@gmail.com"
@@ -27,7 +27,7 @@
     "media",
     "control"
   ],
-  "main": "lib/index.js",
+  "main": "lib/src/index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:charliesbox/react-native-media-controls.git"

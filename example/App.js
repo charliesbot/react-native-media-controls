@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Video from 'react-native-video';
-import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
+import MediaControls, { PLAYER_STATES } from './lib/src/index';
 
 class Main extends Component {
   videoPlayer;
