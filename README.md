@@ -1,6 +1,14 @@
-# react-native-media-controls
+<img alt="React Native Media Controls" src="assets/logo.png" width="1050"/>
 
-A sweet UI component to manipulate your media
+[![Battle Tested ✅](https://img.shields.io/badge/-Battle--Tested%20%E2%9C%85-03666e?style=for-the-badge)](https://github.com/WrathChaos/react-native-media-controls)
+
+[![A sweet UI component to manipulate your media](https://img.shields.io/badge/-%20A%20sweet%20UI%20component%20to%20manipulate%20your%20media-lightgrey?style=for-the-badge)](https://github.com/WrathChaos/react-native-media-controls)
+
+[![npm version](https://img.shields.io/npm/v/@freakycoder/react-native-media-controls.svg?style=for-the-badge)](https://www.npmjs.com/package/@freakycoder/react-native-media-controls)
+[![npm](https://img.shields.io/npm/dt/@freakycoder/react-native-media-controls.svg?style=for-the-badge)](https://www.npmjs.com/package/@freakycoder/react-native-media-controls)
+![expo-compatible](https://img.shields.io/badge/Expo-compatible-9cf.svg?style=for-the-badge)
+![Platform - Android and iOS](https://img.shields.io/badge/platform-Android%20%7C%20iOS-blue.svg?style=for-the-badge)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 This is an original fork of [React Native Media Controls](https://github.com/charliesbot/react-native-media-controls) (Not actively maintained)
 
@@ -79,6 +87,6 @@ import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
   ENDED,
 ```
 
-## Example
+## License
 
-Refer to the example folder to find an implementation of this project
+React Native Media Controls Library is available under the MIT license. See the LICENSE file for more info.
