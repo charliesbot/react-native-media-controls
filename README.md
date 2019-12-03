@@ -2,6 +2,8 @@
 
 A sweet UI component to manipulate your media
 
+This is an original fork of [React Native Media Controls](https://github.com/charliesbot/react-native-media-controls) (Not actively maintained)
+
 ![mediac](https://cloud.githubusercontent.com/assets/10927770/16887015/3380f59a-4a9d-11e6-9e3f-8d1ca29aea03.gif)
 
 ## Installation
