@@ -1,12 +1,12 @@
 {
-  "name": "react-native-media-controls",
-  "description": "A sweet UI to control your video and audio components",
-  "version": "1.2.0",
+  "name": "@freakycoder/react-native-media-controls",
+  "description": "A sweet UI to control your video and audio components for React Native",
+  "version": "2.0.0",
   "author": {
-    "name": "Charlie L",
-    "email": "charliesbot@gmail.com"
+    "name": "FreakyCoder",
+    "email": "kurayogun@gmail.com"
   },
-  "license": "Apache-2.0",
+  "license": "MIT",
   "scripts": {
     "build": "babel src/ -d lib/ src/assets --out-dir lib/ --copy-files",
     "clean": "rimraf lib",
@@ -30,10 +30,7 @@
   "main": "lib/src/index.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:charliesbox/react-native-media-controls.git"
-  },
-  "dependencies": {
-    "react-native-slider": "^0.11.0"
+    "url": "git@github.com:WrathChaos/react-native-media-controls.git"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -57,6 +54,7 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-slider": "^0.11.0"
   }
 }

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Video from 'react-native-video';
-import MediaControls, { PLAYER_STATES } from './lib/src/index';
+import React, { Component } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Video from "react-native-video";
+import MediaControls, { PLAYER_STATES } from "./lib/src/index";
 
 class Main extends Component {
   videoPlayer;
@@ -14,7 +14,7 @@ class Main extends Component {
       isFullScreen: false,
       isLoading: true,
       paused: false,
-      playerState: PLAYER_STATES.PLAYING,
+      playerState: PLAYER_STATES.PLAYING
     };
   }
 
@@ -25,7 +25,7 @@ class Main extends Component {
   onPaused = playerState => {
     this.setState({
       paused: !this.state.paused,
-      playerState,
+      playerState
     });
   };
 
@@ -48,7 +48,7 @@ class Main extends Component {
 
   onEnd = () => this.setState({ playerState: PLAYER_STATES.ENDED });
 
-  onError = () => alert('Oh! ', error);
+  onError = () => alert("Oh! ", error);
 
   exitFullScreen = () => {};
 
@@ -68,29 +68,29 @@ class Main extends Component {
     return (
       <View style={styles.container}>
         <Video
+          volume={0.0}
+          resizeMode="cover"
           onEnd={this.onEnd}
           onLoad={this.onLoad}
-          onLoadStart={this.onLoadStart}
-          onProgress={this.onProgress}
           paused={this.state.paused}
-          ref={videoPlayer => (this.videoPlayer = videoPlayer)}
-          resizeMode="cover"
-          source={{ uri: 'https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
           style={styles.mediaPlayer}
-          volume={0.0}
+          onProgress={this.onProgress}
+          onLoadStart={this.onLoadStart}
+          ref={videoPlayer => (this.videoPlayer = videoPlayer)}
+          source={{ uri: "https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" }}
         />
         <MediaControls
-          duration={this.state.duration}
-          isLoading={this.state.isLoading}
           mainColor="orange"
-          onFullScreen={this.onFullScreen}
-          onPaused={this.onPaused}
-          onReplay={this.onReplay}
           onSeek={this.onSeek}
+          onReplay={this.onReplay}
+          onPaused={this.onPaused}
           onSeeking={this.onSeeking}
-          playerState={this.state.playerState}
-          progress={this.state.currentTime}
+          duration={this.state.duration}
           toolbar={this.renderToolbar()}
+          isLoading={this.state.isLoading}
+          onFullScreen={this.onFullScreen}
+          progress={this.state.currentTime}
+          playerState={this.state.playerState}
         />
       </View>
     );
@@ -99,22 +99,22 @@ class Main extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   toolbar: {
     marginTop: 30,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 5
   },
   mediaPlayer: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
     right: 0,
-    backgroundColor: 'black',
-  },
+    backgroundColor: "black"
+  }
 });
 
 export default Main;

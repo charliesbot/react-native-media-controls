@@ -1,4 +1,11 @@
-example/
-src/
 .*rc
 *.iml
+# Node Modules
+**/node_modules
+node_modules
+# Example 
+example/
+example
+# Assets
+Assets
+assets
