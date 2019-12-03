@@ -7,17 +7,6 @@
     "email": "kurayogun@gmail.com"
   },
   "license": "MIT",
-  "scripts": {
-    "build": "babel src/ -d lib/ src/assets --out-dir lib/ --copy-files",
-    "clean": "rimraf lib",
-    "flow": "flow check ./",
-    "format": "eslint ./**/*.js --fix",
-    "lint": "eslint ./",
-    "lint-staged": "lint-staged",
-    "precommit": "lint-staged",
-    "prepublish": "yarn run clean && yarn run build",
-    "test": "yarn run lint"
-  },
   "keywords": [
     "react-native",
     "ios",
