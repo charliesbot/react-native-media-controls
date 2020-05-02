@@ -17,7 +17,7 @@ module.exports = {
     config.plugins = [
       ...config.plugins,
       copy({
-        targets: [{ src: "assets/*", dest: `${outputDirectory}/assets` }],
+        targets: [{ src: "src/assets/*", dest: `${outputDirectory}/assets` }],
       }),
     ];
 
