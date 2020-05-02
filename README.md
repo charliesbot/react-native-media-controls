@@ -1,52 +1,60 @@
 # react-native-media-controls
-A sweet UI component to manipulate your media
+A sweet UI component to manipulate your media (with Typescript support!)
 
 ![mediac](https://cloud.githubusercontent.com/assets/10927770/16887015/3380f59a-4a9d-11e6-9e3f-8d1ca29aea03.gif)
 
 ## Installation
 `yarn add react-native-media-controls`
+`yarn add react-native-slider`
 
 ## Usage
 ```js
 // Require the module
 import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Video
-          onEnd={this.onEnd}
-          onLoad={this.onLoad}
-          onLoadStart={this.onLoadStart}
-          onProgress={this.onProgress}
-          paused={this.state.paused}
-          ref={videoPlayer => (this.videoPlayer = videoPlayer)}
-          resizeMode="cover"
-          source={{ uri: 'https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
-          style={styles.mediaPlayer}
-          volume={0.0}
-        />
-        <MediaControls
-          duration={this.state.duration}
-          isLoading={this.state.isLoading}
-          mainColor="orange"
-          onFullScreen={this.onFullScreen}
-          onPaused={this.onPaused}
-          onReplay={this.onReplay}
-          onSeek={this.onSeek}
-          playerState={this.state.playerState}
-          progress={this.state.currentTime}
-          toolbar={this.renderToolbar()}
-        />
-      </View>
-    );
-  }
+const App = () => {
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const [playerState, setPlayerState] = useState(PLAYER_STATES.PLAYING);
+
+  // ... ... ...
+  // ... ... ...
+
+  return (
+    <View style={styles.container}>
+      <Video
+        {...videoProps}
+      />
+      <MediaControls
+        isFullScreen={isFullScreen}
+        duration={duration}
+        isLoading={isLoading}
+        mainColor="orange"
+        onFullScreen={noop}
+        onPaused={onPaused}
+        onReplay={onReplay}
+        onSeek={onSeek}
+        onSeeking={onSeeking}
+        playerState={playerState}
+        progress={currentTime}
+      >
+        <MediaControls.Toolbar>
+          <View style={styles.toolbar}>
+            <Text>I'm a custom toolbar </Text>
+          </View>
+        </MediaControls.Toolbar>
+      </MediaControls>
+    </View>
+  );
+};
 
 ```
 ## Props
 | Prop         | Type     | Optional | Default                | Description                                                          |
 |--------------|----------|----------|------------------------|----------------------------------------------------------------------|
-| toolbar      | node     | Yes      |                        | Add a custom view on the top of the controls                         |
 | mainColor    | string   | Yes      | rgba(12, 83, 175, 0.9) | Change custom color to the media controls                            |
 | isLoading    | bool     | Yes      | false                  | When is loading                                                      |
 | isFullScreen | bool     | Yes      | false                  | To change icon state of fullscreen                                   |

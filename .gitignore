@@ -1,9 +1,14 @@
-# OSX
-#
+*.log
 .DS_Store
+node_modules
+.cache
+.rts2_cache_cjs
+.rts2_cache_esm
+.rts2_cache_umd
+.rts2_cache_system
+dist
 
 # Xcode
-#
 build/
 *.pbxuser
 !default.pbxuser
@@ -45,3 +50,5 @@ example/android/gradlew
 example/android/gradlew.bat
 
 lib/
+
+yarn-error.log
