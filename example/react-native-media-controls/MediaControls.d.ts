@@ -11,7 +11,7 @@ export declare type Props = {
     duration: number;
     isFullScreen: boolean;
     playerState: PLAYER_STATES;
-    onFullScreen: (event: GestureResponderEvent) => void;
+    onFullScreen?: (event: GestureResponderEvent) => void;
     fadeOutDelay?: number;
     onPaused: (playerState: PLAYER_STATES) => void;
     onReplay: () => void;
