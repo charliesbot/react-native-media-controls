@@ -28,7 +28,10 @@
     }
   },
   "name": "react-native-media-controls",
-  "author": "Charlie L",
+  "author": {
+    "name": "Charlie L",
+    "email": "charliesbot@gmail.com"
+  },
   "module": "dist/react-native-media-controls.esm.js",
   "devDependencies": {
     "@types/react": "^16.9.34",
