@@ -20,7 +20,7 @@ const App = () => {
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PLAYING);
 
   const onSeek = seek => {
-    videoPlayer?.seek(seek);
+    videoPlayer?.current.seek(seek);
   };
 
   const onPaused = playerState => {

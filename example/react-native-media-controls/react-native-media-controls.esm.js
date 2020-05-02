@@ -115,7 +115,6 @@ var humanizeVideoDuration = function humanizeVideoDuration(seconds) {
   date.setSeconds(seconds);
   return date.toISOString().substr(begin, end);
 };
-var noop = function noop() {};
 var getPlayerStateIcon = function getPlayerStateIcon(playerState) {
   switch (playerState) {
     case PLAYER_STATES.PAUSED:
@@ -204,7 +203,7 @@ var Slider = function Slider(props) {
       borderColor: mainColor
     }],
     minimumTrackTintColor: mainColor
-  })), React.createElement(TouchableOpacity, {
+  })), Boolean(onFullScreen) && React.createElement(TouchableOpacity, {
     style: styles.fullScreenContainer,
     onPress: onFullScreen
   }, React.createElement(Image, {
@@ -222,8 +221,7 @@ var MediaControls = function MediaControls(props) {
       duration = props.duration,
       _props$isLoading = props.isLoading,
       isLoading = _props$isLoading === void 0 ? false : _props$isLoading,
-      _props$onFullScreen = props.onFullScreen,
-      onFullScreen = _props$onFullScreen === void 0 ? noop : _props$onFullScreen,
+      onFullScreen = props.onFullScreen,
       playerState = props.playerState,
       progress = props.progress,
       onReplayCallback = props.onReplay,
@@ -304,7 +302,7 @@ var MediaControls = function MediaControls(props) {
 
       case PAUSED:
         {
-          fadeOutControls(5000);
+          fadeOutControls(fadeOutDelay);
           break;
         }
     }

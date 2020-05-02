@@ -1,11 +1,13 @@
 # react-native-media-controls
 A sweet UI component to manipulate your media. Strongly typed using Typescript.
 
-![mediac](https://cloud.githubusercontent.com/assets/10927770/16887015/3380f59a-4a9d-11e6-9e3f-8d1ca29aea03.gif)
+![mediac](https://user-images.githubusercontent.com/10927770/80893585-89967000-8c88-11ea-83af-2a028115ee12.gif)
 
 ## Installation
 ```bash
+   // install package
    yarn add react-native-media-controls
+   // install react-native-slider, as this is a dependency of this library
    yarn add react-native-slider
 ```
 
