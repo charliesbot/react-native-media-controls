@@ -4,8 +4,10 @@ A sweet UI component to manipulate your media (with Typescript support!)
 ![mediac](https://cloud.githubusercontent.com/assets/10927770/16887015/3380f59a-4a9d-11e6-9e3f-8d1ca29aea03.gif)
 
 ## Installation
-`yarn add react-native-media-controls`
-`yarn add react-native-slider`
+```bash
+   yarn add react-native-media-controls
+   yarn add react-native-slider
+```
 
 ## Usage
 ```js
