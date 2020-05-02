@@ -6,7 +6,6 @@ import {
   GestureResponderEvent,
 } from "react-native";
 import styles from "./MediaControls.style";
-import { noop } from "./utils";
 import { PLAYER_STATES } from "./constants/playerStates";
 import { Controls } from "./Controls";
 import { Slider } from "./Slider";
@@ -23,7 +22,7 @@ export type Props = {
   duration: number;
   isFullScreen: boolean;
   playerState: PLAYER_STATES;
-  onFullScreen: (event: GestureResponderEvent) => void;
+  onFullScreen?: (event: GestureResponderEvent) => void;
   fadeOutDelay?: number;
   onPaused: (playerState: PLAYER_STATES) => void;
   onReplay: () => void;
@@ -36,7 +35,7 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
     children,
     duration,
     isLoading = false,
-    onFullScreen = noop,
+    onFullScreen,
     playerState,
     progress,
     onReplay: onReplayCallback,
@@ -93,7 +92,7 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
         break;
       }
       case PAUSED: {
-        fadeOutControls(5000);
+        fadeOutControls(fadeOutDelay);
         break;
       }
       default:

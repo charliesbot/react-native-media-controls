@@ -1,11 +1,13 @@
 # react-native-media-controls
-A sweet UI component to manipulate your media (with Typescript support!)
+A sweet UI component to manipulate your media. Strongly typed using Typescript.
 
 ![mediac](https://cloud.githubusercontent.com/assets/10927770/16887015/3380f59a-4a9d-11e6-9e3f-8d1ca29aea03.gif)
 
 ## Installation
-`yarn add react-native-media-controls`
-`yarn add react-native-slider`
+```bash
+   yarn add react-native-media-controls
+   yarn add react-native-slider
+```
 
 ## Usage
 ```js
@@ -56,12 +58,13 @@ const App = () => {
 | Prop         | Type     | Optional | Default                | Description                                                          |
 |--------------|----------|----------|------------------------|----------------------------------------------------------------------|
 | mainColor    | string   | Yes      | rgba(12, 83, 175, 0.9) | Change custom color to the media controls                            |
-| isLoading    | bool     | Yes      | false                  | When is loading                                                      |
-| isFullScreen | bool     | Yes      | false                  | To change icon state of fullscreen                                   |
+| isLoading    | boolean  | Yes      | false                  | When is loading                                                      |
+| isFullScreen | boolean  | Yes      | false                  | To change icon state of fullscreen                                   |
+| fadeOutDelay | number   | Yes      | 5000                   | Allows to customize the delay between fade in and fade out transition|
 | progress     | number   | No       |                        | Current time of the media player                                     |
 | duration     | number   | No       |                        | Total duration of the media                                          |
 | playerState  | number   | No       |                        | Could be PLAYING, PAUSED or ENDED (take a look at constants section) |
-| onFullScreen | function | Yes      |                        | Triggered when the fullscreen button is pressed                      |
+| onFullScreen | function | Yes      |                        | Triggered when the fullscreen button is pressed. If not provided, the fullscreen icon is not displayed                    |
 | onPaused     | function | No       |                        | Triggered when the play/pause button is pressed. It returns the new toggled value (PLAYING or PAUSED)                     |
 | onReplay     | function | Yes      |                        | Triggered when the replay button is pressed                          |
 | onSeek       | function | No       |                        | Triggered when the user released the slider                          |
@@ -75,4 +78,3 @@ const App = () => {
 ```  
 ## Example
 Refer to the example folder to find an implementation of this project
-

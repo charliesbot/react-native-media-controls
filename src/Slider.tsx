@@ -62,12 +62,14 @@ const Slider: React.FC<SliderProps> = props => {
           minimumTrackTintColor={mainColor}
         />
       </View>
-      <TouchableOpacity
-        style={styles.fullScreenContainer}
-        onPress={onFullScreen}
-      >
-        <Image source={fullScreenImage} />
-      </TouchableOpacity>
+      {Boolean(onFullScreen) && (
+        <TouchableOpacity
+          style={styles.fullScreenContainer}
+          onPress={onFullScreen}
+        >
+          <Image source={fullScreenImage} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
