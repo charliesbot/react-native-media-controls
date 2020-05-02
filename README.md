@@ -63,8 +63,8 @@ const App = () => {
 | progress     | number   | No       |                        | Current time of the media player                                     |
 | duration     | number   | No       |                        | Total duration of the media                                          |
 | playerState  | number   | No       |                        | Could be PLAYING, PAUSED or ENDED (take a look at constants section) |
-| onFullScreen | onFullScreen?: (event: GestureResponderEvent) => void | Yes      |                        | Triggered when the fullscreen button is pressed. If not provided, the fullscreen icon is not displayed                    |
-| onPaused     |   onPaused: (playerState: PLAYER_STATES) => void | No       |                        | Triggered when the play/pause button is pressed. It returns the new toggled value (PLAYING or PAUSED)                     |
+| onFullScreen | (event: GestureResponderEvent) => void | Yes      |                        | Triggered when the fullscreen button is pressed. If not provided, the fullscreen icon is not displayed                    |
+| onPaused     | (playerState: PLAYER_STATES) => void | No       |                        | Triggered when the play/pause button is pressed. It returns the new toggled value (PLAYING or PAUSED)                     |
 | onReplay     | function | Yes      |                        | Triggered when the replay button is pressed                          |
 | onSeek       | function | No       |                        | Triggered when the user released the slider                          |
 | onSeeking    | function | Yes      |                        | Triggered when the user is interacting with the slider               |
