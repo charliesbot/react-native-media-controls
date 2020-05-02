@@ -4,4 +4,4 @@ enum PLAYER_STATES {
   ENDED = 2,
 }
 
-export default PLAYER_STATES;
+export { PLAYER_STATES };

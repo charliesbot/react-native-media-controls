@@ -1,101 +1,95 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Video from 'react-native-video';
-import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
+// @ts-check
+/** @type {import("./react-native-media-controls/index")} */
 
-class Main extends Component {
-  videoPlayer;
+import React, { useState, useRef } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Video from "react-native-video";
+import MediaControls, {
+  PLAYER_STATES,
+} from "./react-native-media-controls/react-native-media-controls.esm";
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentTime: 0,
-      duration: 0,
-      isFullScreen: false,
-      isLoading: true,
-      paused: false,
-      playerState: PLAYER_STATES.PLAYING,
-    };
-  }
+const noop = () => {};
 
-  onSeek = seek => {
-    this.videoPlayer.seek(seek);
+const App = () => {
+  const videoPlayer = useRef(null);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const [playerState, setPlayerState] = useState(PLAYER_STATES.PLAYING);
+
+  const onSeek = seek => {
+    videoPlayer?.seek(seek);
   };
 
-  onPaused = playerState => {
-    this.setState({
-      paused: !this.state.paused,
-      playerState,
-    });
+  const onPaused = playerState => {
+    setPaused(!paused);
+    setPlayerState(playerState);
   };
 
-  onReplay = () => {
-    this.setState({ playerState: PLAYER_STATES.PLAYING });
-    this.videoPlayer.seek(0);
+  const onReplay = () => {
+    setPlayerState(PLAYER_STATES.PLAYING);
+    videoPlayer?.seek(0);
   };
 
-  onProgress = data => {
-    const { isLoading, playerState } = this.state;
+  const onProgress = data => {
     // Video Player will continue progress even if the video already ended
     if (!isLoading && playerState !== PLAYER_STATES.ENDED) {
-      this.setState({ currentTime: data.currentTime });
+      setCurrentTime(data.currentTime);
     }
   };
 
-  onLoad = data => this.setState({ duration: data.duration, isLoading: false });
+  const onLoad = data => {
+    setDuration(data.duration);
+    setIsLoading(false);
+  };
 
-  onLoadStart = data => this.setState({ isLoading: true });
+  const onLoadStart = () => setIsLoading(true);
 
-  onEnd = () => this.setState({ playerState: PLAYER_STATES.ENDED });
+  const onEnd = () => setPlayerState(PLAYER_STATES.ENDED);
 
-  onError = () => alert('Oh! ', error);
+  const onSeeking = currentTime => setCurrentTime(currentTime);
 
-  exitFullScreen = () => {};
-
-  enterFullScreen = () => {};
-
-  onFullScreen = () => {};
-
-  renderToolbar = () => (
-    <View style={styles.toolbar}>
-      <Text>I'm a custom toolbar </Text>
+  return (
+    <View style={styles.container}>
+      <Video
+        onEnd={onEnd}
+        onLoad={onLoad}
+        onLoadStart={onLoadStart}
+        onProgress={onProgress}
+        paused={paused}
+        ref={ref => (videoPlayer.current = ref)}
+        resizeMode="cover"
+        source={{
+          uri:
+            "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        }}
+        style={styles.mediaPlayer}
+        volume={0.0}
+      />
+      <MediaControls
+        isFullScreen={isFullScreen}
+        duration={duration}
+        isLoading={isLoading}
+        mainColor="orange"
+        onFullScreen={noop}
+        onPaused={onPaused}
+        onReplay={onReplay}
+        onSeek={onSeek}
+        onSeeking={onSeeking}
+        playerState={playerState}
+        progress={currentTime}
+      >
+        <MediaControls.Toolbar>
+          <View style={styles.toolbar}>
+            <Text>I'm a custom toolbar </Text>
+          </View>
+        </MediaControls.Toolbar>
+      </MediaControls>
     </View>
   );
-
-  onSeeking = currentTime => this.setState({ currentTime });
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Video
-          onEnd={this.onEnd}
-          onLoad={this.onLoad}
-          onLoadStart={this.onLoadStart}
-          onProgress={this.onProgress}
-          paused={this.state.paused}
-          ref={videoPlayer => (this.videoPlayer = videoPlayer)}
-          resizeMode="cover"
-          source={{ uri: 'https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
-          style={styles.mediaPlayer}
-          volume={0.0}
-        />
-        <MediaControls
-          duration={this.state.duration}
-          isLoading={this.state.isLoading}
-          mainColor="orange"
-          onFullScreen={this.onFullScreen}
-          onPaused={this.onPaused}
-          onReplay={this.onReplay}
-          onSeek={this.onSeek}
-          onSeeking={this.onSeeking}
-          playerState={this.state.playerState}
-          progress={this.state.currentTime}
-          toolbar={this.renderToolbar()}
-        />
-      </View>
-    );
-  }
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -103,18 +97,18 @@ const styles = StyleSheet.create({
   },
   toolbar: {
     marginTop: 30,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     padding: 10,
     borderRadius: 5,
   },
   mediaPlayer: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
     right: 0,
-    backgroundColor: 'black',
+    backgroundColor: "black",
   },
 });
 
-export default Main;
+export default App;

@@ -1,5 +1,5 @@
 import MediaControls from "./MediaControls";
-import PLAYER_STATES from "./constants";
+import { PLAYER_STATES } from "./constants/playerStates";
 
 export { PLAYER_STATES };
 
