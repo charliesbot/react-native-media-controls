@@ -1,6 +1,20 @@
 {
   "version": "2.0.0",
+  "name": "react-native-media-controls",
+  "author": {
+    "name": "Charlie L",
+    "email": "charliesbot@gmail.com"
+  },
   "license": "MIT",
+  "keywords": [
+    "react-native",
+    "ios",
+    "android",
+    "video",
+    "audio",
+    "media",
+    "control"
+  ],
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -26,11 +40,6 @@
     "hooks": {
       "pre-commit": "tsdx lint"
     }
-  },
-  "name": "react-native-media-controls",
-  "author": {
-    "name": "Charlie L",
-    "email": "charliesbot@gmail.com"
   },
   "module": "dist/react-native-media-controls.esm.js",
   "devDependencies": {
