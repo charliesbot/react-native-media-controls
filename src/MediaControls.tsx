@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import {
-  TouchableOpacity,
   View,
-  Text,
-  ActivityIndicator,
   Animated,
-  Image,
   TouchableWithoutFeedback,
   GestureResponderEvent,
 } from "react-native";
-import Slider from "react-native-slider";
 import styles from "./MediaControls.style";
-import { noop, getPlayerStateIcon, humanizeVideoDuration } from "./utils";
+import { noop } from "./utils";
 import { PLAYER_STATES } from "./constants/playerStates";
-const fullScreenImage = require("./assets/ic_fullscreen.png");
+import { Controls } from "./Controls";
+import { Slider } from "./Slider";
+import { Toolbar } from "./Toolbar";
 
-type Props = {
-  toolbar: React.ReactNode;
+interface MediaControlsComposition {
+  Toolbar: React.FC;
+}
+
+export type Props = {
   mainColor: string;
   isLoading: boolean;
   progress: number;
@@ -31,17 +31,19 @@ type Props = {
   onSeeking: (value: number) => void;
 };
 
-const MediaControls: React.FC<Props> = props => {
+const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
   const {
+    children,
     duration,
     isLoading = false,
     onFullScreen = noop,
     playerState,
     progress,
-    toolbar,
     onReplay: onReplayCallback,
     fadeOutDelay = 5000,
     mainColor = "rgba(12, 83, 175, 0.9)",
+    onSeeking,
+    onSeek,
   } = props;
   const [opacity] = useState(new Animated.Value(1));
   const [isVisible, setIsVisible] = useState(true);
@@ -111,82 +113,38 @@ const MediaControls: React.FC<Props> = props => {
     });
   };
 
-  const dragging = (value: number) => {
-    const { onSeeking, playerState } = props;
-    onSeeking(value);
-
-    if (playerState === PLAYER_STATES.PAUSED) {
-      return;
-    }
-
-    onPause();
-  };
-
-  const seekVideo = (value: number) => {
-    props.onSeek(value);
-    onPause();
-  };
-
-  const icon = getPlayerStateIcon(playerState);
-  const pressAction = playerState === PLAYER_STATES.ENDED ? onReplay : onPause;
-
   return (
     <TouchableWithoutFeedback onPress={toggleControls}>
       <Animated.View style={[styles.container, { opacity }]}>
         {isVisible && (
           <View style={styles.container}>
             <View style={[styles.controlsRow, styles.toolbarRow]}>
-              {toolbar}
+              {children}
             </View>
-            <View style={[styles.controlsRow]}>
-              {(() => {
-                if (isLoading) {
-                  return <ActivityIndicator size="large" color="#FFF" />;
-                }
-
-                return (
-                  <TouchableOpacity
-                    style={[styles.playButton, { backgroundColor: mainColor }]}
-                    onPress={pressAction}
-                  >
-                    <Image source={icon} style={styles.playIcon} />
-                  </TouchableOpacity>
-                );
-              })()}
-            </View>
-            <View style={[styles.controlsRow, styles.progressContainer]}>
-              <View style={styles.progressColumnContainer}>
-                <View style={[styles.timerLabelsContainer]}>
-                  <Text style={styles.timerLabel}>
-                    {humanizeVideoDuration(progress)}
-                  </Text>
-                  <Text style={styles.timerLabel}>
-                    {humanizeVideoDuration(duration)}
-                  </Text>
-                </View>
-                <Slider
-                  style={styles.progressSlider}
-                  onValueChange={dragging}
-                  onSlidingComplete={seekVideo}
-                  maximumValue={Math.floor(duration)}
-                  value={Math.floor(progress)}
-                  trackStyle={styles.track}
-                  thumbStyle={[styles.thumb, { borderColor: mainColor }]}
-                  minimumTrackTintColor={mainColor}
-                />
-              </View>
-              <TouchableOpacity
-                style={styles.fullScreenContainer}
-                onPress={onFullScreen}
-              >
-                <Image source={fullScreenImage} />
-              </TouchableOpacity>
-            </View>
+            <Controls
+              onPause={onPause}
+              onReplay={onReplay}
+              isLoading={isLoading}
+              mainColor={mainColor}
+              playerState={playerState}
+            />
+            <Slider
+              progress={progress}
+              duration={duration}
+              mainColor={mainColor}
+              onFullScreen={onFullScreen}
+              playerState={playerState}
+              onSeek={onSeek}
+              onSeeking={onSeeking}
+              onPause={onPause}
+            />
           </View>
         )}
       </Animated.View>
     </TouchableWithoutFeedback>
   );
 };
+
+MediaControls.Toolbar = Toolbar;
 
 export default MediaControls;
