@@ -16,6 +16,7 @@
     "control"
   ],
   "main": "dist/index.js",
+  "module": "dist/react-native-media-controls.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
@@ -41,7 +42,6 @@
       "pre-commit": "tsdx lint"
     }
   },
-  "module": "dist/react-native-media-controls.esm.js",
   "devDependencies": {
     "@types/react": "^16.9.34",
     "@types/react-native": "^0.62.5",
