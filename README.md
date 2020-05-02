@@ -60,6 +60,7 @@ const App = () => {
 | mainColor    | string   | Yes      | rgba(12, 83, 175, 0.9) | Change custom color to the media controls                            |
 | isLoading    | boolean  | Yes      | false                  | When is loading                                                      |
 | isFullScreen | boolean  | Yes      | false                  | To change icon state of fullscreen                                   |
+| fadeOutDelay | number   | Yes      | 5000                   | Allows to customize the delay between fade in and fade out transition|
 | progress     | number   | No       |                        | Current time of the media player                                     |
 | duration     | number   | No       |                        | Total duration of the media                                          |
 | playerState  | number   | No       |                        | Could be PLAYING, PAUSED or ENDED (take a look at constants section) |
