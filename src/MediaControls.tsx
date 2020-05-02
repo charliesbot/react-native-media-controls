@@ -92,7 +92,7 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
         break;
       }
       case PAUSED: {
-        fadeOutControls(5000);
+        fadeOutControls(fadeOutDelay);
         break;
       }
       default:
