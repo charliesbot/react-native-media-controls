@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import {
   TouchableOpacity,
   View,
@@ -7,72 +7,91 @@ import {
   Animated,
   Image,
   TouchableWithoutFeedback,
-  // eslint ignore next $FlowFixMe
+  GestureResponderEvent,
 } from "react-native";
 import Slider from "react-native-slider";
 import styles from "./MediaControls.style";
-import { humanizeVideoDuration, noop } from "./utils";
+import { noop, getPlayerStateIcon, humanizeVideoDuration } from "./utils";
 import { PLAYER_STATES } from "./constants/playerStates";
+const fullScreenImage = require("./assets/ic_fullscreen.png");
 
 type Props = {
-  toolbar: Node;
+  toolbar: React.ReactNode;
   mainColor: string;
   isLoading: boolean;
   progress: number;
   duration: number;
+  isFullScreen: boolean;
   playerState: PLAYER_STATES;
-  onFullScreen: any;
-  onPaused: any;
-  onReplay: any;
-  onSeek: any;
-  onSeeking: any;
+  onFullScreen: (event: GestureResponderEvent) => void;
+  fadeOutDelay?: number;
+  onPaused: (playerState: PLAYER_STATES) => void;
+  onReplay: () => void;
+  onSeek: (value: number) => void;
+  onSeeking: (value: number) => void;
 };
 
-type State = {
-  opacity: Object;
-  isVisible: boolean;
-};
+const MediaControls: React.FC<Props> = props => {
+  const {
+    duration,
+    isLoading = false,
+    onFullScreen = noop,
+    playerState,
+    progress,
+    toolbar,
+    onReplay: onReplayCallback,
+    fadeOutDelay = 5000,
+    mainColor = "rgba(12, 83, 175, 0.9)",
+  } = props;
+  const [opacity] = useState(new Animated.Value(1));
+  const [isVisible, setIsVisible] = useState(true);
 
-class MediaControls extends Component<Props, State> {
-  static defaultProps = {
-    isFullScreen: false,
-    isLoading: false,
-    mainColor: "rgba(12, 83, 175, 0.9)",
-    onFullScreen: noop,
-    onReplay: noop,
-    onSeeking: noop,
+  const fadeOutControls = (delay = 0) => {
+    Animated.timing(opacity, {
+      toValue: 0,
+      duration: 300,
+      delay,
+      useNativeDriver: false,
+    }).start(result => {
+      /* I noticed that the callback is called twice, when it is invoked and when it completely finished
+      This prevents some flickering */
+      if (result.finished) {
+        setIsVisible(false);
+      }
+    });
   };
 
-  state = {
-    opacity: new Animated.Value(1),
-    isVisible: true,
+  const fadeInControls = (loop = true) => {
+    setIsVisible(true);
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 300,
+      delay: 0,
+      useNativeDriver: false,
+    }).start(() => {
+      if (loop) {
+        fadeOutControls(fadeOutDelay);
+      }
+    });
   };
 
-  componentDidMount() {
-    this.fadeOutControls(5000);
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.playerState === PLAYER_STATES.ENDED) {
-      this.fadeInControls(false);
-    }
-  }
-
-  onReplay = () => {
-    this.fadeOutControls(5000);
-    this.props.onReplay();
+  const onReplay = () => {
+    fadeOutControls(fadeOutDelay);
+    onReplayCallback();
   };
 
-  onPause = () => {
-    const { playerState, onPaused } = this.props;
+  const cancelAnimation = () => opacity.stopAnimation(() => setIsVisible(true));
+
+  const onPause = () => {
+    const { playerState, onPaused } = props;
     const { PLAYING, PAUSED } = PLAYER_STATES;
     switch (playerState) {
       case PLAYING: {
-        this.cancelAnimation();
+        cancelAnimation();
         break;
       }
       case PAUSED: {
-        this.fadeOutControls(5000);
+        fadeOutControls(5000);
         break;
       }
       default:
@@ -83,161 +102,91 @@ class MediaControls extends Component<Props, State> {
     return onPaused(newPlayerState);
   };
 
-  setLoadingView = () => <ActivityIndicator size="large" color="#FFF" />;
-
-  setPlayerControls = (playerState: PLAYER_STATES) => {
-    const icon = this.getPlayerStateIcon(playerState);
-    const pressAction =
-      playerState === PLAYER_STATES.ENDED ? this.onReplay : this.onPause;
-    return (
-      <TouchableOpacity
-        style={[styles.playButton, { backgroundColor: this.props.mainColor }]}
-        onPress={pressAction}
-      >
-        <Image source={icon} style={styles.playIcon} />
-      </TouchableOpacity>
-    );
-  };
-
-  getPlayerStateIcon = (playerState: PLAYER_STATES) => {
-    switch (playerState) {
-      case PLAYER_STATES.PAUSED:
-        // eslint ignore next $FlowFixMe
-        return require("./assets/ic_play.png");
-      case PLAYER_STATES.PLAYING:
-        // eslint ignore next $FlowFixMe
-        return require("./assets/ic_pause.png");
-      case PLAYER_STATES.ENDED:
-        // eslint ignore next $FlowFixMe
-        return require("./assets/ic_replay.png");
-      default:
-        return null;
-    }
-  };
-
-  cancelAnimation = () => {
-    this.state.opacity.stopAnimation(() => {
-      this.setState({ isVisible: true });
-    });
-  };
-
-  toggleControls = () => {
+  const toggleControls = () => {
     // value is the last value of the animation when stop animation was called.
     // As this is an opacity effect, I (Charlie) used the value (0 or 1) as a boolean
-    this.state.opacity.stopAnimation((value: number) => {
-      this.setState({ isVisible: !!value });
-      return value ? this.fadeOutControls() : this.fadeInControls();
+    opacity.stopAnimation((value: number) => {
+      setIsVisible(!!value);
+      return value ? fadeOutControls() : fadeInControls();
     });
   };
 
-  fadeOutControls = (delay: number = 0) => {
-    Animated.timing(this.state.opacity, {
-      toValue: 0,
-      duration: 300,
-      delay,
-      useNativeDriver: false,
-    }).start(result => {
-      /* I noticed that the callback is called twice, when it is invoked and when it completely finished
-      This prevents some flickering */
-      if (result.finished) this.setState({ isVisible: false });
-    });
-  };
-
-  fadeInControls = (loop: boolean = true) => {
-    this.setState({ isVisible: true });
-    Animated.timing(this.state.opacity, {
-      toValue: 1,
-      duration: 300,
-      delay: 0,
-      useNativeDriver: false,
-    }).start(() => {
-      if (loop) {
-        this.fadeOutControls(5000);
-      }
-    });
-  };
-
-  dragging = (value: number) => {
-    const { onSeeking, playerState } = this.props;
-
+  const dragging = (value: number) => {
+    const { onSeeking, playerState } = props;
     onSeeking(value);
-    if (playerState === PLAYER_STATES.PAUSED) return;
 
-    this.onPause();
+    if (playerState === PLAYER_STATES.PAUSED) {
+      return;
+    }
+
+    onPause();
   };
 
-  seekVideo = (value: number) => {
-    this.props.onSeek(value);
-    this.onPause();
+  const seekVideo = (value: number) => {
+    props.onSeek(value);
+    onPause();
   };
 
-  renderControls() {
-    const {
-      duration,
-      isLoading,
-      mainColor,
-      onFullScreen,
-      playerState,
-      progress,
-      toolbar,
-    } = this.props;
+  const icon = getPlayerStateIcon(playerState);
+  const pressAction = playerState === PLAYER_STATES.ENDED ? onReplay : onPause;
 
-    // this let us block the controls
-    if (!this.state.isVisible) return null;
-
-    // eslint ignore next $FlowFixMe
-    const fullScreenImage = require("./assets/ic_fullscreen.png");
-    return (
-      <View style={styles.container}>
-        <View style={[styles.controlsRow, styles.toolbarRow]}>{toolbar}</View>
-        <View style={[styles.controlsRow]}>
-          {isLoading
-            ? this.setLoadingView()
-            : this.setPlayerControls(playerState)}
-        </View>
-        <View style={[styles.controlsRow, styles.progressContainer]}>
-          <View style={styles.progressColumnContainer}>
-            <View style={[styles.timerLabelsContainer]}>
-              <Text style={styles.timerLabel}>
-                {humanizeVideoDuration(progress)}
-              </Text>
-              <Text style={styles.timerLabel}>
-                {humanizeVideoDuration(duration)}
-              </Text>
+  return (
+    <TouchableWithoutFeedback onPress={toggleControls}>
+      <Animated.View style={[styles.container, { opacity }]}>
+        {isVisible && (
+          <View style={styles.container}>
+            <View style={[styles.controlsRow, styles.toolbarRow]}>
+              {toolbar}
             </View>
-            <Slider
-              style={styles.progressSlider}
-              onValueChange={this.dragging}
-              onSlidingComplete={this.seekVideo}
-              maximumValue={Math.floor(duration)}
-              value={Math.floor(progress)}
-              trackStyle={styles.track}
-              thumbStyle={[styles.thumb, { borderColor: mainColor }]}
-              minimumTrackTintColor={mainColor}
-            />
-          </View>
-          <TouchableOpacity
-            style={styles.fullScreenContainer}
-            onPress={onFullScreen}
-          >
-            <Image source={fullScreenImage} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
+            <View style={[styles.controlsRow]}>
+              {(() => {
+                if (isLoading) {
+                  return <ActivityIndicator size="large" color="#FFF" />;
+                }
 
-  render() {
-    return (
-      <TouchableWithoutFeedback onPress={this.toggleControls}>
-        <Animated.View
-          style={[styles.container, { opacity: this.state.opacity }]}
-        >
-          {this.renderControls()}
-        </Animated.View>
-      </TouchableWithoutFeedback>
-    );
-  }
-}
+                return (
+                  <TouchableOpacity
+                    style={[styles.playButton, { backgroundColor: mainColor }]}
+                    onPress={pressAction}
+                  >
+                    <Image source={icon} style={styles.playIcon} />
+                  </TouchableOpacity>
+                );
+              })()}
+            </View>
+            <View style={[styles.controlsRow, styles.progressContainer]}>
+              <View style={styles.progressColumnContainer}>
+                <View style={[styles.timerLabelsContainer]}>
+                  <Text style={styles.timerLabel}>
+                    {humanizeVideoDuration(progress)}
+                  </Text>
+                  <Text style={styles.timerLabel}>
+                    {humanizeVideoDuration(duration)}
+                  </Text>
+                </View>
+                <Slider
+                  style={styles.progressSlider}
+                  onValueChange={dragging}
+                  onSlidingComplete={seekVideo}
+                  maximumValue={Math.floor(duration)}
+                  value={Math.floor(progress)}
+                  trackStyle={styles.track}
+                  thumbStyle={[styles.thumb, { borderColor: mainColor }]}
+                  minimumTrackTintColor={mainColor}
+                />
+              </View>
+              <TouchableOpacity
+                style={styles.fullScreenContainer}
+                onPress={onFullScreen}
+              >
+                <Image source={fullScreenImage} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      </Animated.View>
+    </TouchableWithoutFeedback>
+  );
+};
 
 export default MediaControls;
