@@ -77,4 +77,3 @@ const App = () => {
 ```  
 ## Example
 Refer to the example folder to find an implementation of this project
-
