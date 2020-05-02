@@ -1,62 +1,44 @@
 {
-  "name": "react-native-media-controls",
-  "description": "A sweet UI to control your video and audio components",
-  "version": "1.1.1",
-  "author": {
-    "name": "Charlie L",
-    "email": "charliesbot@gmail.com"
-  },
-  "license": "Apache-2.0",
-  "scripts": {
-    "build": "babel src/ -d lib/ src/assets --out-dir lib/ --copy-files",
-    "clean": "rimraf lib",
-    "flow": "flow check ./",
-    "format": "eslint ./**/*.js --fix",
-    "lint": "eslint ./",
-    "lint-staged": "lint-staged",
-    "precommit": "lint-staged",
-    "prepublish": "yarn run clean && yarn run build",
-    "test": "yarn run lint"
-  },
-  "keywords": [
-    "react-native",
-    "ios",
-    "android",
-    "video",
-    "audio",
-    "media",
-    "control"
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
   ],
-  "main": "lib/index.js",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:charliesbox/react-native-media-controls.git"
+  "engines": {
+    "node": ">=10"
   },
-  "dependencies": {
-    "react-native-slider": "^0.11.0"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.1.2",
-    "babel-preset-flow": "^6.23.0",
-    "babel-preset-react-native": "^4.0.0",
-    "eslint": "^4.13.1",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-prettier": "^2.6.0",
-    "eslint-plugin-flowtype": "^2.39.1",
-    "eslint-plugin-flowtype-errors": "^3.3.6",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-prettier": "^2.4.0",
-    "eslint-plugin-react": "^7.4.0",
-    "eslint-plugin-react-native": "^3.2.0",
-    "flow-bin": "^0.57.0",
-    "husky": "^0.14.3",
-    "lint-staged": "^6.0.0",
-    "prettier": "^1.9.2"
+  "scripts": {
+    "start": "tsdx watch",
+    "dev": "tsdx watch --localDev",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-native": "*"
+    "react": ">=16",
+    "react-native": ">=0.60"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "name": "react-native-media-controls",
+  "author": "Charlie L",
+  "module": "dist/react-native-media-controls.esm.js",
+  "devDependencies": {
+    "@types/react": "^16.9.34",
+    "@types/react-native": "^0.62.5",
+    "husky": "^4.2.5",
+    "react": "^16.13.1",
+    "react-native-slider": "^0.11.0",
+    "rollup-plugin-copy": "^3.3.0",
+    "tsdx": "^0.13.2",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
   }
 }
