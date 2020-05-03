@@ -26,10 +26,9 @@
     "node": ">=10"
   },
   "scripts": {
-    "clean": "rimraf ./dist",
     "start": "tsdx watch",
     "dev": "tsdx watch --localDev",
-    "build": "yarn clean && tsdx build",
+    "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "tsdx build"
@@ -49,7 +48,6 @@
     "husky": "^4.2.5",
     "react": "^16.13.1",
     "react-native-slider": "^0.11.0",
-    "rimraf": "^3.0.2",
     "rollup-plugin-copy": "^3.3.0",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.1",
