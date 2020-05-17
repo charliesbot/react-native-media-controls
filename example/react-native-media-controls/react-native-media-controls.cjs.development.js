@@ -116,7 +116,7 @@ var humanizeVideoDuration = function humanizeVideoDuration(seconds) {
       begin = _ref[0],
       end = _ref[1];
 
-  var date = new Date();
+  var date = new Date(0);
   date.setSeconds(seconds);
   return date.toISOString().substr(begin, end);
 };
