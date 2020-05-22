@@ -16,36 +16,52 @@ interface MediaControlsComposition {
 }
 
 export type Props = {
-  mainColor: string;
-  isLoading: boolean;
-  progress: number;
   duration: number;
-  isFullScreen: boolean;
-  playerState: PLAYER_STATES;
-  onFullScreen?: (event: GestureResponderEvent) => void;
   fadeOutDelay?: number;
+  isFullScreen: boolean;
+  isLoading: boolean;
+  mainColor: string;
+  onFullScreen?: (event: GestureResponderEvent) => void;
   onPaused: (playerState: PLAYER_STATES) => void;
   onReplay: () => void;
   onSeek: (value: number) => void;
   onSeeking: (value: number) => void;
+  playerState: PLAYER_STATES;
+  progress: number;
+  showOnStart?: boolean;
 };
 
 const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
   const {
     children,
     duration,
+    fadeOutDelay = 5000,
     isLoading = false,
+    mainColor = "rgba(12, 83, 175, 0.9)",
     onFullScreen,
+    onReplay: onReplayCallback,
+    onSeek,
+    onSeeking,
     playerState,
     progress,
-    onReplay: onReplayCallback,
-    fadeOutDelay = 5000,
-    mainColor = "rgba(12, 83, 175, 0.9)",
-    onSeeking,
-    onSeek,
+    showOnStart = true,
   } = props;
-  const [opacity] = useState(new Animated.Value(1));
-  const [isVisible, setIsVisible] = useState(true);
+  const { initialOpacity, initialIsVisible } = (() => {
+    if (showOnStart) {
+      return {
+        initialOpacity: 1,
+        initialIsVisible: true,
+      };
+    }
+
+    return {
+      initialOpacity: 0,
+      initialIsVisible: false,
+    };
+  })();
+
+  const [opacity] = useState(new Animated.Value(initialOpacity));
+  const [isVisible, setIsVisible] = useState(initialIsVisible);
 
   const fadeOutControls = (delay = 0) => {
     Animated.timing(opacity, {
