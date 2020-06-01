@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Animated,
@@ -35,7 +35,6 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
   const {
     children,
     duration,
-    fadeOutDelay = 5000,
     isLoading = false,
     mainColor = "rgba(12, 83, 175, 0.9)",
     onFullScreen,
@@ -44,56 +43,40 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
     onSeeking,
     playerState,
     progress,
-    showOnStart = true,
   } = props;
   const { initialOpacity, initialIsVisible } = (() => {
-    if (showOnStart) {
-      return {
-        initialOpacity: 1,
-        initialIsVisible: true,
-      };
-    }
-
     return {
-      initialOpacity: 0,
-      initialIsVisible: false,
+      initialOpacity: 1,
+      initialIsVisible: true,
     };
   })();
 
-  const [opacity] = useState(new Animated.Value(initialOpacity));
+  const opacity = useRef(new Animated.Value(initialOpacity)).current;
   const [isVisible, setIsVisible] = useState(initialIsVisible);
 
-  const fadeOutControls = (delay = 0) => {
-    Animated.timing(opacity, {
-      toValue: 0,
-      duration: 300,
-      delay,
-      useNativeDriver: false,
-    }).start(result => {
-      /* I noticed that the callback is called twice, when it is invoked and when it completely finished
-      This prevents some flickering */
-      if (result.finished) {
-        setIsVisible(false);
-      }
-    });
-  };
+  // const fadeOutControls = (delay = 0) => {
+  //   Animated.timing(opacity, {
+  //     toValue: 0,
+  //     duration: 300,
+  //     delay,
+  //     useNativeDriver: true,
+  //   }).start();
+  // };
 
-  const fadeInControls = (loop = true) => {
+  const fadeInControls = () => {
     setIsVisible(true);
     Animated.timing(opacity, {
       toValue: 1,
       duration: 300,
       delay: 0,
-      useNativeDriver: false,
-    }).start(() => {
-      if (loop) {
-        fadeOutControls(fadeOutDelay);
-      }
-    });
+      useNativeDriver: true,
+    }).start();
   };
 
+  useEffect(fadeInControls, []);
+
   const onReplay = () => {
-    fadeOutControls(fadeOutDelay);
+    //fadeOutControls(fadeOutDelay);
     onReplayCallback();
   };
 
@@ -108,7 +91,7 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
         break;
       }
       case PAUSED: {
-        fadeOutControls(fadeOutDelay);
+        //fadeOutControls(fadeOutDelay);
         break;
       }
       default:
@@ -119,17 +102,21 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
     return onPaused(newPlayerState);
   };
 
-  const toggleControls = () => {
-    // value is the last value of the animation when stop animation was called.
-    // As this is an opacity effect, I (Charlie) used the value (0 or 1) as a boolean
-    opacity.stopAnimation((value: number) => {
-      setIsVisible(!!value);
-      return value ? fadeOutControls() : fadeInControls();
-    });
-  };
+  // const toggleControls = () => {
+  //   // value is the last value of the animation when stop animation was called.
+  //   // As this is an opacity effect, I (Charlie) used the value (0 or 1) as a boolean
+  //   opacity.stopAnimation((value: number) => {
+  //     setIsVisible(!!value);
+  //     return value ? fadeOutControls() : fadeInControls();
+  //   });
+  // };
 
   return (
-    <TouchableWithoutFeedback onPress={toggleControls}>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        console.log("tap on player");
+      }}
+    >
       <Animated.View style={[styles.container, { opacity }]}>
         {isVisible && (
           <View style={styles.container}>

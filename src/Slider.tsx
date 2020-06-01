@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
 import RNSlider from "react-native-slider";
 import styles from "./MediaControls.style";
 import { humanizeVideoDuration } from "./utils";
@@ -19,10 +19,10 @@ type SliderProps = Pick<
   onPause: () => void;
 };
 
-const fullScreenImage = require("./assets/ic_fullscreen.png");
+//const fullScreenImage = require("./assets/ic_fullscreen.png");
 
 const Slider: React.FC<SliderProps> = props => {
-  const { progress, duration, mainColor, onFullScreen, onPause } = props;
+  const { progress, duration, mainColor, onPause } = props;
 
   const dragging = (value: number) => {
     const { onSeeking, playerState } = props;
@@ -62,14 +62,14 @@ const Slider: React.FC<SliderProps> = props => {
           minimumTrackTintColor={mainColor}
         />
       </View>
-      {Boolean(onFullScreen) && (
+      {/* {Boolean(onFullScreen) && (
         <TouchableOpacity
           style={styles.fullScreenContainer}
           onPress={onFullScreen}
         >
           <Image source={fullScreenImage} />
         </TouchableOpacity>
-      )}
+      )} */}
     </View>
   );
 };

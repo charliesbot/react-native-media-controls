@@ -219,23 +219,41 @@ var Toolbar = function Toolbar(_ref) {
 var MediaControls = function MediaControls(props) {
   var children = props.children,
       duration = props.duration,
-      _props$isLoading = props.isLoading,
-      isLoading = _props$isLoading === void 0 ? false : _props$isLoading,
-      onFullScreen = props.onFullScreen,
-      playerState = props.playerState,
-      progress = props.progress,
-      onReplayCallback = props.onReplay,
       _props$fadeOutDelay = props.fadeOutDelay,
       fadeOutDelay = _props$fadeOutDelay === void 0 ? 5000 : _props$fadeOutDelay,
+      _props$isLoading = props.isLoading,
+      isLoading = _props$isLoading === void 0 ? false : _props$isLoading,
       _props$mainColor = props.mainColor,
       mainColor = _props$mainColor === void 0 ? "rgba(12, 83, 175, 0.9)" : _props$mainColor,
+      onFullScreen = props.onFullScreen,
+      onReplayCallback = props.onReplay,
+      onSeek = props.onSeek,
       onSeeking = props.onSeeking,
-      onSeek = props.onSeek;
+      playerState = props.playerState,
+      progress = props.progress,
+      _props$showOnStart = props.showOnStart,
+      showOnStart = _props$showOnStart === void 0 ? true : _props$showOnStart;
 
-  var _useState = useState(new Animated.Value(1)),
+  var _ref = function () {
+    if (showOnStart) {
+      return {
+        initialOpacity: 1,
+        initialIsVisible: true
+      };
+    }
+
+    return {
+      initialOpacity: 0,
+      initialIsVisible: false
+    };
+  }(),
+      initialOpacity = _ref.initialOpacity,
+      initialIsVisible = _ref.initialIsVisible;
+
+  var _useState = useState(new Animated.Value(initialOpacity)),
       opacity = _useState[0];
 
-  var _useState2 = useState(true),
+  var _useState2 = useState(initialIsVisible),
       isVisible = _useState2[0],
       setIsVisible = _useState2[1];
 
