@@ -101,7 +101,7 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
 
   const onPause = () => {
     const { playerState, onPaused } = props;
-    const { PLAYING, PAUSED } = PLAYER_STATES;
+    const { PLAYING, PAUSED, ENDED } = PLAYER_STATES;
     switch (playerState) {
       case PLAYING: {
         cancelAnimation();
@@ -111,7 +111,7 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
         fadeOutControls(fadeOutDelay);
         break;
       }
-      default:
+      case ENDED:
         break;
     }
 

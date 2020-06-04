@@ -30,12 +30,12 @@ const App = () => {
 
   const onReplay = () => {
     setPlayerState(PLAYER_STATES.PLAYING);
-    videoPlayer?.seek(0);
+    videoPlayer?.current.seek(0);
   };
 
   const onProgress = data => {
     // Video Player will continue progress even if the video already ended
-    if (!isLoading && playerState !== PLAYER_STATES.ENDED) {
+    if (!isLoading) {
       setCurrentTime(data.currentTime);
     }
   };
@@ -47,7 +47,10 @@ const App = () => {
 
   const onLoadStart = () => setIsLoading(true);
 
-  const onEnd = () => setPlayerState(PLAYER_STATES.ENDED);
+  const onEnd = () => {
+    // Uncomment this line if you choose repeat=false in the video player
+    // setPlayerState(PLAYER_STATES.ENDED);
+  };
 
   const onSeeking = currentTime => setCurrentTime(currentTime);
 
@@ -65,6 +68,7 @@ const App = () => {
           uri:
             "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
         }}
+        repeat
         style={styles.mediaPlayer}
         volume={0.0}
       />
