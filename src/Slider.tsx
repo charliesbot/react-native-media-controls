@@ -6,6 +6,12 @@ import { humanizeVideoDuration } from "./utils";
 import { Props } from "./MediaControls";
 import { PLAYER_STATES } from "./constants/playerStates";
 
+export type CustomSliderStyle = {
+  style: any;
+  trackStyle: any;
+  thumbStyle: any;
+};
+
 type SliderProps = Pick<
   Props,
   | "progress"
@@ -17,12 +23,26 @@ type SliderProps = Pick<
   | "onSeeking"
 > & {
   onPause: () => void;
+  customSliderStyle: CustomSliderStyle;
 };
 
 const fullScreenImage = require("./assets/ic_fullscreen.png");
 
 const Slider: React.FC<SliderProps> = props => {
-  const { progress, duration, mainColor, onFullScreen, onPause } = props;
+  const {
+    customSliderStyle,
+    duration,
+    mainColor,
+    onFullScreen,
+    onPause,
+    progress,
+  } = props;
+
+  const {
+    style: customStyle = {},
+    trackStyle: customTrackStyle = {},
+    thumbStyle: customThumbStyle = {},
+  } = customSliderStyle;
 
   const dragging = (value: number) => {
     const { onSeeking, playerState } = props;
@@ -52,13 +72,17 @@ const Slider: React.FC<SliderProps> = props => {
           </Text>
         </View>
         <RNSlider
-          style={styles.progressSlider}
+          style={[styles.progressSlider, customStyle]}
           onValueChange={dragging}
           onSlidingComplete={seekVideo}
           maximumValue={Math.floor(duration)}
           value={Math.floor(progress)}
-          trackStyle={styles.track}
-          thumbStyle={[styles.thumb, { borderColor: mainColor }]}
+          trackStyle={[styles.track, customTrackStyle]}
+          thumbStyle={[
+            styles.thumb,
+            customThumbStyle,
+            { borderColor: mainColor },
+          ]}
           minimumTrackTintColor={mainColor}
         />
       </View>

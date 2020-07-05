@@ -8,7 +8,7 @@ import {
 import styles from "./MediaControls.style";
 import { PLAYER_STATES } from "./constants/playerStates";
 import { Controls } from "./Controls";
-import { Slider } from "./Slider";
+import { Slider, CustomSliderStyle } from "./Slider";
 import { Toolbar } from "./Toolbar";
 
 interface MediaControlsComposition {
@@ -29,6 +29,7 @@ export type Props = {
   playerState: PLAYER_STATES;
   progress: number;
   showOnStart?: boolean;
+  customSliderStyle: CustomSliderStyle;
 };
 
 const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
@@ -45,6 +46,7 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
     playerState,
     progress,
     showOnStart = true,
+    sliderStyleConfig,
   } = props;
   const { initialOpacity, initialIsVisible } = (() => {
     if (showOnStart) {
@@ -152,6 +154,7 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
               onSeek={onSeek}
               onSeeking={onSeeking}
               onPause={onPause}
+              sliderStyleConfig={sliderStyleConfig}
             />
           </View>
         )}
