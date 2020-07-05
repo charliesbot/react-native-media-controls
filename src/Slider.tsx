@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, View, Text, Image } from "react-native";
+import { TouchableOpacity, View, Text, Image, ViewStyle } from "react-native";
 import RNSlider from "react-native-slider";
 import styles from "./MediaControls.style";
 import { humanizeVideoDuration } from "./utils";
@@ -7,9 +7,9 @@ import { Props } from "./MediaControls";
 import { PLAYER_STATES } from "./constants/playerStates";
 
 export type CustomSliderStyle = {
-  style: any;
-  trackStyle: any;
-  thumbStyle: any;
+  containerStyle: ViewStyle;
+  trackStyle: ViewStyle;
+  thumbStyle: ViewStyle;
 };
 
 type SliderProps = Pick<
@@ -39,7 +39,7 @@ const Slider: React.FC<SliderProps> = props => {
   } = props;
 
   const {
-    style: customStyle = {},
+    containerStyle = {},
     trackStyle: customTrackStyle = {},
     thumbStyle: customThumbStyle = {},
   } = customSliderStyle;
@@ -72,7 +72,7 @@ const Slider: React.FC<SliderProps> = props => {
           </Text>
         </View>
         <RNSlider
-          style={[styles.progressSlider, customStyle]}
+          style={[styles.progressSlider, containerStyle]}
           onValueChange={dragging}
           onSlidingComplete={seekVideo}
           maximumValue={Math.floor(duration)}

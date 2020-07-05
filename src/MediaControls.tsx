@@ -4,6 +4,7 @@ import {
   Animated,
   TouchableWithoutFeedback,
   GestureResponderEvent,
+  ViewStyle,
 } from "react-native";
 import styles from "./MediaControls.style";
 import { PLAYER_STATES } from "./constants/playerStates";
@@ -16,6 +17,8 @@ interface MediaControlsComposition {
 }
 
 export type Props = {
+  containerStyle: ViewStyle;
+  sliderStyle: CustomSliderStyle;
   duration: number;
   fadeOutDelay?: number;
   isFullScreen: boolean;
@@ -29,12 +32,13 @@ export type Props = {
   playerState: PLAYER_STATES;
   progress: number;
   showOnStart?: boolean;
-  customSliderStyle: CustomSliderStyle;
 };
 
 const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
   const {
     children,
+    containerStyle: customContainerStyle = {},
+    sliderStyle,
     duration,
     fadeOutDelay = 5000,
     isLoading = false,
@@ -46,7 +50,6 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
     playerState,
     progress,
     showOnStart = true,
-    sliderStyleConfig,
   } = props;
   const { initialOpacity, initialIsVisible } = (() => {
     if (showOnStart) {
@@ -134,7 +137,7 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
     <TouchableWithoutFeedback onPress={toggleControls}>
       <Animated.View style={[styles.container, { opacity }]}>
         {isVisible && (
-          <View style={styles.container}>
+          <View style={[styles.container, customContainerStyle]}>
             <View style={[styles.controlsRow, styles.toolbarRow]}>
               {children}
             </View>
@@ -154,7 +157,7 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
               onSeek={onSeek}
               onSeeking={onSeeking}
               onPause={onPause}
-              sliderStyleConfig={sliderStyleConfig}
+              customSliderStyle={sliderStyle}
             />
           </View>
         )}
