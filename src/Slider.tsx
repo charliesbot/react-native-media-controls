@@ -3,7 +3,7 @@ import { TouchableOpacity, View, Text, Image, ViewStyle } from "react-native";
 import RNSlider from "react-native-slider";
 import styles from "./MediaControls.style";
 import { humanizeVideoDuration } from "./utils";
-import { Props } from "./MediaControls";
+import { Props as MediaControlsProps } from "./MediaControls";
 import { PLAYER_STATES } from "./constants/playerStates";
 
 export type CustomSliderStyle = {
@@ -12,8 +12,8 @@ export type CustomSliderStyle = {
   thumbStyle: ViewStyle;
 };
 
-type SliderProps = Pick<
-  Props,
+type Props = Pick<
+  MediaControlsProps,
   | "progress"
   | "duration"
   | "mainColor"
@@ -28,7 +28,7 @@ type SliderProps = Pick<
 
 const fullScreenImage = require("./assets/ic_fullscreen.png");
 
-const Slider: React.FC<SliderProps> = props => {
+const Slider = (props: Props) => {
   const {
     customSliderStyle,
     duration,

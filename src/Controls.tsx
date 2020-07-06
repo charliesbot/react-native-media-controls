@@ -12,7 +12,7 @@ type ControlsProps = Pick<
   onPause: () => void;
 };
 
-const Controls: React.FC<ControlsProps> = props => {
+const Controls = (props: ControlsProps) => {
   const { isLoading, mainColor, playerState, onReplay, onPause } = props;
   const icon = getPlayerStateIcon(playerState);
   const pressAction = playerState === PLAYER_STATES.ENDED ? onReplay : onPause;
