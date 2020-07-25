@@ -4,18 +4,17 @@ import {
   Animated,
   TouchableWithoutFeedback,
   GestureResponderEvent,
+  ViewStyle,
 } from "react-native";
 import styles from "./MediaControls.style";
 import { PLAYER_STATES } from "./constants/playerStates";
 import { Controls } from "./Controls";
-import { Slider } from "./Slider";
+import { Slider, CustomSliderStyle } from "./Slider";
 import { Toolbar } from "./Toolbar";
 
-interface MediaControlsComposition {
-  Toolbar: React.FC;
-}
-
 export type Props = {
+  children: React.ReactNode;
+  containerStyle: ViewStyle;
   duration: number;
   fadeOutDelay?: number;
   isFullScreen: boolean;
@@ -29,11 +28,14 @@ export type Props = {
   playerState: PLAYER_STATES;
   progress: number;
   showOnStart?: boolean;
+  sliderStyle: CustomSliderStyle;
+  toolbarStyle: ViewStyle;
 };
 
-const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
+const MediaControls = (props: Props) => {
   const {
     children,
+    containerStyle: customContainerStyle = {},
     duration,
     fadeOutDelay = 5000,
     isLoading = false,
@@ -45,6 +47,8 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
     playerState,
     progress,
     showOnStart = true,
+    sliderStyle, // defaults are applied in Slider.tsx
+    toolbarStyle: customToolbarStyle = {},
   } = props;
   const { initialOpacity, initialIsVisible } = (() => {
     if (showOnStart) {
@@ -132,8 +136,14 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
     <TouchableWithoutFeedback onPress={toggleControls}>
       <Animated.View style={[styles.container, { opacity }]}>
         {isVisible && (
-          <View style={styles.container}>
-            <View style={[styles.controlsRow, styles.toolbarRow]}>
+          <View style={[styles.container, customContainerStyle]}>
+            <View
+              style={[
+                styles.controlsRow,
+                styles.toolbarRow,
+                customToolbarStyle,
+              ]}
+            >
               {children}
             </View>
             <Controls
@@ -152,6 +162,7 @@ const MediaControls: React.FC<Props> & MediaControlsComposition = props => {
               onSeek={onSeek}
               onSeeking={onSeeking}
               onPause={onPause}
+              customSliderStyle={sliderStyle}
             />
           </View>
         )}
