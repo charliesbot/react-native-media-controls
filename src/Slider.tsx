@@ -23,7 +23,7 @@ type Props = Pick<
   | "onSeeking"
 > & {
   onPause: () => void;
-  customSliderStyle: CustomSliderStyle;
+  customSliderStyle?: CustomSliderStyle;
 };
 
 const fullScreenImage = require("./assets/ic_fullscreen.png");
@@ -38,11 +38,9 @@ const Slider = (props: Props) => {
     progress,
   } = props;
 
-  const {
-    containerStyle = {},
-    trackStyle: customTrackStyle = {},
-    thumbStyle: customThumbStyle = {},
-  } = customSliderStyle;
+  const containerStyle = customSliderStyle?.containerStyle || {};
+  const customTrackStyle = customSliderStyle?.trackStyle || {};
+  const customThumbStyle = customSliderStyle?.thumbStyle || {};
 
   const dragging = (value: number) => {
     const { onSeeking, playerState } = props;
@@ -61,7 +59,9 @@ const Slider = (props: Props) => {
   };
 
   return (
-    <View style={[styles.controlsRow, styles.progressContainer]}>
+    <View
+      style={[styles.controlsRow, styles.progressContainer, containerStyle]}
+    >
       <View style={styles.progressColumnContainer}>
         <View style={[styles.timerLabelsContainer]}>
           <Text style={styles.timerLabel}>
@@ -72,7 +72,7 @@ const Slider = (props: Props) => {
           </Text>
         </View>
         <RNSlider
-          style={[styles.progressSlider, containerStyle]}
+          style={[styles.progressSlider]}
           onValueChange={dragging}
           onSlidingComplete={seekVideo}
           maximumValue={Math.floor(duration)}

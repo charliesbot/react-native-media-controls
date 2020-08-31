@@ -1,7 +1,14 @@
-import React from "react";
-import { Props } from "./MediaControls";
-declare type SliderProps = Pick<Props, "progress" | "duration" | "mainColor" | "onFullScreen" | "playerState" | "onSeek" | "onSeeking"> & {
-    onPause: () => void;
+/// <reference types="react" />
+import { ViewStyle } from "react-native";
+import { Props as MediaControlsProps } from "./MediaControls";
+export declare type CustomSliderStyle = {
+    containerStyle: ViewStyle;
+    trackStyle: ViewStyle;
+    thumbStyle: ViewStyle;
 };
-declare const Slider: React.FC<SliderProps>;
+declare type Props = Pick<MediaControlsProps, "progress" | "duration" | "mainColor" | "onFullScreen" | "playerState" | "onSeek" | "onSeeking"> & {
+    onPause: () => void;
+    customSliderStyle?: CustomSliderStyle;
+};
+declare const Slider: (props: Props) => JSX.Element;
 export { Slider };

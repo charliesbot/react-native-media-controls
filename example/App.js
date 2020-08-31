@@ -19,11 +19,11 @@ const App = () => {
   const [paused, setPaused] = useState(false);
   const [playerState, setPlayerState] = useState(PLAYER_STATES.PLAYING);
 
-  const onSeek = seek => {
+  const onSeek = (seek) => {
     videoPlayer?.current.seek(seek);
   };
 
-  const onPaused = playerState => {
+  const onPaused = (playerState) => {
     setPaused(!paused);
     setPlayerState(playerState);
   };
@@ -33,14 +33,14 @@ const App = () => {
     videoPlayer?.current.seek(0);
   };
 
-  const onProgress = data => {
+  const onProgress = (data) => {
     // Video Player will continue progress even if the video already ended
     if (!isLoading) {
       setCurrentTime(data.currentTime);
     }
   };
 
-  const onLoad = data => {
+  const onLoad = (data) => {
     setDuration(data.duration);
     setIsLoading(false);
   };
@@ -52,7 +52,7 @@ const App = () => {
     // setPlayerState(PLAYER_STATES.ENDED);
   };
 
-  const onSeeking = currentTime => setCurrentTime(currentTime);
+  const onSeeking = (currentTime) => setCurrentTime(currentTime);
 
   return (
     <View style={styles.container}>
@@ -62,7 +62,7 @@ const App = () => {
         onLoadStart={onLoadStart}
         onProgress={onProgress}
         paused={paused}
-        ref={ref => (videoPlayer.current = ref)}
+        ref={(ref) => (videoPlayer.current = ref)}
         resizeMode="cover"
         source={{
           uri:

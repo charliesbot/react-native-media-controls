@@ -1,3 +1,6 @@
 import React from "react";
-declare const Toolbar: React.FC;
+declare type Props = {
+    children: React.ReactNode;
+};
+declare const Toolbar: ({ children }: Props) => JSX.Element;
 export { Toolbar };
