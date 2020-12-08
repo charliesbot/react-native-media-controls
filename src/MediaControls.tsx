@@ -133,7 +133,7 @@ const MediaControls = (props: Props) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={toggleControls}>
+    <TouchableWithoutFeedback accessible={false} onPress={toggleControls}>
       <Animated.View style={[styles.container, { opacity }]}>
         {isVisible && (
           <View style={[styles.container, customContainerStyle]}>

@@ -23,6 +23,10 @@ const Controls = (props: ControlsProps) => {
     <TouchableOpacity
       style={[styles.playButton, { backgroundColor: mainColor }]}
       onPress={pressAction}
+      accessibilityLabel={
+        PLAYER_STATES.PAUSED ? "Click to Play" : "Click to Pause"
+      }
+      accessibilityHint={"Plays and Pauses the Video"}
     >
       <Image source={icon} style={styles.playIcon} />
     </TouchableOpacity>
