@@ -24,7 +24,7 @@ const Controls = (props: ControlsProps) => {
       style={[styles.playButton, { backgroundColor: mainColor }]}
       onPress={pressAction}
       accessibilityLabel={
-        PLAYER_STATES.PAUSED ? "Click to Play" : "Click to Pause"
+        PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause"
       }
       accessibilityHint={"Plays and Pauses the Video"}
     >
