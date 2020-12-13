@@ -6,9 +6,9 @@ A sweet UI component to manipulate your media. Strongly typed using Typescript.
 ## Installation
 ```bash
    // install package
-   yarn add react-native-media-controls
-   // install react-native-slider, as this is a dependency of this library
-   yarn add react-native-slider
+   yarn add react-native-media-controls   
+   // install @react-native-community/slider, as this is a dependency of this library. because Deprecated. Use @react-native-community/slider instead. https://reactnative.dev/docs/slider
+   yarn add @react-native-community/slider   
 ```
 
 ## Usage
