@@ -7,7 +7,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var React = require('react');
 var React__default = _interopDefault(React);
 var reactNative = require('react-native');
-var RNSlider = _interopDefault(require('react-native-slider'));
+var RNSlider = _interopDefault(require('@react-native-community/slider'));
 
 var containerBackgroundColor = "rgba(45, 59, 62, 0.4)";
 var playButtonBorderColor = "rgba(255,255,255,0.5)";
