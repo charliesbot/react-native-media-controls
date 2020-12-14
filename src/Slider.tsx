@@ -58,6 +58,7 @@ const Slider = (props: Props) => {
     onPause();
   };
 
+  const isFullScreen = Boolean(onFullScreen);
   return (
     <View
       style={[styles.controlsRow, styles.progressContainer, containerStyle]}
@@ -86,10 +87,15 @@ const Slider = (props: Props) => {
           minimumTrackTintColor={mainColor}
         />
       </View>
-      {Boolean(onFullScreen) && (
+      {isFullScreen && (
         <TouchableOpacity
           style={styles.fullScreenContainer}
           onPress={onFullScreen}
+          accessible
+          accessibilityLabel={
+            isFullScreen ? "Tap to Exit Fullscreen" : "Tap to Enter Fullscreen"
+          }
+          accessibilityHint={"Toggles Fullscreen View"}
         >
           <Image source={fullScreenImage} />
         </TouchableOpacity>
