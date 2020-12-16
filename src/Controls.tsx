@@ -5,6 +5,13 @@ import { getPlayerStateIcon } from "./utils";
 import { Props } from "./MediaControls";
 import { PLAYER_STATES } from "./constants/playerStates";
 
+const getAccessibilityProps = (playerState: PLAYER_STATES) => ({
+  accessible: true,
+  accessibilityLabel:
+    playerState === PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause",
+  accessibilityHint: "Plays and Pauses the Video",
+});
+
 type ControlsProps = Pick<
   Props,
   "isLoading" | "mainColor" | "playerState" | "onReplay"
@@ -23,10 +30,7 @@ const Controls = (props: ControlsProps) => {
     <TouchableOpacity
       style={[styles.playButton, { backgroundColor: mainColor }]}
       onPress={pressAction}
-      accessibilityLabel={
-        PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause"
-      }
-      accessibilityHint={"Plays and Pauses the Video"}
+      {...getAccessibilityProps(playerState)}
     >
       <Image source={icon} style={styles.playIcon} />
     </TouchableOpacity>
