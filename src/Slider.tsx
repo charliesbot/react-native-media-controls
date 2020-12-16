@@ -6,6 +6,14 @@ import { humanizeVideoDuration } from "./utils";
 import { Props as MediaControlsProps } from "./MediaControls";
 import { PLAYER_STATES } from "./constants/playerStates";
 
+const getAccessibilityProps = (isFullScreen: boolean) => ({
+  accessible: true,
+  accessibilityLabel: isFullScreen
+    ? "Tap to Exit Fullscreen"
+    : "Tap to Enter Fullscreen",
+  accessibilityHint: "Toggles Fullscreen View",
+});
+
 export type CustomSliderStyle = {
   containerStyle: ViewStyle;
   trackStyle: ViewStyle;
@@ -58,6 +66,8 @@ const Slider = (props: Props) => {
     onPause();
   };
 
+  const isFullscreen = Boolean(onFullScreen);
+
   return (
     <View
       style={[styles.controlsRow, styles.progressContainer, containerStyle]}
@@ -86,10 +96,11 @@ const Slider = (props: Props) => {
           minimumTrackTintColor={mainColor}
         />
       </View>
-      {Boolean(onFullScreen) && (
+      {isFullscreen && (
         <TouchableOpacity
           style={styles.fullScreenContainer}
           onPress={onFullScreen}
+          {...getAccessibilityProps(isFullscreen)}
         >
           <Image source={fullScreenImage} />
         </TouchableOpacity>
