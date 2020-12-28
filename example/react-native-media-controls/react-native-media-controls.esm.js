@@ -146,7 +146,9 @@ var Controls = function Controls(props) {
     style: [styles.playButton, {
       backgroundColor: mainColor
     }],
-    onPress: pressAction
+    onPress: pressAction,
+    accessibilityLabel: PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause",
+    accessibilityHint: "Plays and Pauses the Video"
   }, React.createElement(Image, {
     source: icon,
     style: styles.playIcon
@@ -348,6 +350,7 @@ var MediaControls = function MediaControls(props) {
   };
 
   return React.createElement(TouchableWithoutFeedback, {
+    accessible: false,
     onPress: toggleControls
   }, React.createElement(Animated.View, {
     style: [styles.container, {

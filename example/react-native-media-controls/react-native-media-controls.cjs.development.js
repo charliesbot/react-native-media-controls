@@ -151,7 +151,9 @@ var Controls = function Controls(props) {
     style: [styles.playButton, {
       backgroundColor: mainColor
     }],
-    onPress: pressAction
+    onPress: pressAction,
+    accessibilityLabel: exports.PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause",
+    accessibilityHint: "Plays and Pauses the Video"
   }, React__default.createElement(reactNative.Image, {
     source: icon,
     style: styles.playIcon
@@ -353,6 +355,7 @@ var MediaControls = function MediaControls(props) {
   };
 
   return React__default.createElement(reactNative.TouchableWithoutFeedback, {
+    accessible: false,
     onPress: toggleControls
   }, React__default.createElement(reactNative.Animated.View, {
     style: [styles.container, {

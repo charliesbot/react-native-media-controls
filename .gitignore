@@ -33,7 +33,6 @@ project.xcworkspace
 .gradle
 local.properties
 *.iml
-example/android/gradle
 example/android/build
 
 # node.js
@@ -46,8 +45,6 @@ buck-out/
 \.buckd/
 example/android/app/libs
 example/android/keystores/debug.keystore
-example/android/gradlew
-example/android/gradlew.bat
 
 lib/
 
