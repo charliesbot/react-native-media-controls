@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, ActivityIndicator, TouchableOpacity, Image, View, Text, Animated, TouchableWithoutFeedback } from 'react-native';
 import RNSlider from 'react-native-slider';
 
@@ -267,6 +267,10 @@ var MediaControls = function MediaControls(props) {
   var _useState2 = useState(initialIsVisible),
       isVisible = _useState2[0],
       setIsVisible = _useState2[1];
+
+  useEffect(function () {
+    fadeOutControls(fadeOutDelay);
+  }, []);
 
   var fadeOutControls = function fadeOutControls(delay) {
     if (delay === void 0) {
