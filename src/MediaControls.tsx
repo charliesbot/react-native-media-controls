@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Animated,
@@ -66,6 +66,10 @@ const MediaControls = (props: Props) => {
 
   const [opacity] = useState(new Animated.Value(initialOpacity));
   const [isVisible, setIsVisible] = useState(initialIsVisible);
+
+  useEffect(() => {
+    fadeOutControls(fadeOutDelay);
+  }, []);
 
   const fadeOutControls = (delay = 0) => {
     Animated.timing(opacity, {

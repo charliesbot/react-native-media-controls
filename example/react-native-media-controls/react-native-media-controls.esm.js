@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, ActivityIndicator, TouchableOpacity, Image, View, Text, Animated, TouchableWithoutFeedback } from 'react-native';
 import RNSlider from 'react-native-slider';
 
@@ -146,7 +146,9 @@ var Controls = function Controls(props) {
     style: [styles.playButton, {
       backgroundColor: mainColor
     }],
-    onPress: pressAction
+    onPress: pressAction,
+    accessibilityLabel: PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause",
+    accessibilityHint: "Plays and Pauses the Video"
   }, React.createElement(Image, {
     source: icon,
     style: styles.playIcon
@@ -266,6 +268,10 @@ var MediaControls = function MediaControls(props) {
       isVisible = _useState2[0],
       setIsVisible = _useState2[1];
 
+  useEffect(function () {
+    fadeOutControls(fadeOutDelay);
+  }, []);
+
   var fadeOutControls = function fadeOutControls(delay) {
     if (delay === void 0) {
       delay = 0;
@@ -348,6 +354,7 @@ var MediaControls = function MediaControls(props) {
   };
 
   return React.createElement(TouchableWithoutFeedback, {
+    accessible: false,
     onPress: toggleControls
   }, React.createElement(Animated.View, {
     style: [styles.container, {
