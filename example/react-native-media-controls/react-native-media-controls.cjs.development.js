@@ -7,7 +7,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var React = require('react');
 var React__default = _interopDefault(React);
 var reactNative = require('react-native');
-var RNSlider = _interopDefault(require('@react-native-community/slider'));
+var RNSlider = _interopDefault(require('react-native-slider'));
 
 var containerBackgroundColor = "rgba(45, 59, 62, 0.4)";
 var playButtonBorderColor = "rgba(255,255,255,0.5)";
@@ -151,7 +151,9 @@ var Controls = function Controls(props) {
     style: [styles.playButton, {
       backgroundColor: mainColor
     }],
-    onPress: pressAction
+    onPress: pressAction,
+    accessibilityLabel: exports.PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause",
+    accessibilityHint: "Plays and Pauses the Video"
   }, React__default.createElement(reactNative.Image, {
     source: icon,
     style: styles.playIcon
@@ -271,6 +273,10 @@ var MediaControls = function MediaControls(props) {
       isVisible = _useState2[0],
       setIsVisible = _useState2[1];
 
+  React.useEffect(function () {
+    fadeOutControls(fadeOutDelay);
+  }, []);
+
   var fadeOutControls = function fadeOutControls(delay) {
     if (delay === void 0) {
       delay = 0;
@@ -353,6 +359,7 @@ var MediaControls = function MediaControls(props) {
   };
 
   return React__default.createElement(reactNative.TouchableWithoutFeedback, {
+    accessible: false,
     onPress: toggleControls
   }, React__default.createElement(reactNative.Animated.View, {
     style: [styles.container, {
