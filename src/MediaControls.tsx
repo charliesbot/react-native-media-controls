@@ -28,8 +28,8 @@ export type Props = {
   playerState: PLAYER_STATES;
   progress: number;
   showOnStart?: boolean;
-  sliderStyle: CustomSliderStyle;
-  toolbarStyle: ViewStyle;
+  sliderStyle?: CustomSliderStyle;
+  toolbarStyle?: ViewStyle;
 };
 
 const MediaControls = (props: Props) => {

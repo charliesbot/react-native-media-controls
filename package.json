@@ -29,7 +29,6 @@
     "start": "tsdx watch",
     "dev": "tsdx watch --localDev",
     "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "tsdx build"
   },
