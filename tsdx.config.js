@@ -8,7 +8,7 @@ module.exports = {
         return `example/${name}`;
       }
 
-      return `dist`;
+      return `dist/`;
     })();
 
     const external = config.external;
