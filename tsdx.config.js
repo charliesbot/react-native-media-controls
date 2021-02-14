@@ -1,4 +1,4 @@
-const copy = require("rollup-plugin-copy");
+const copy = require("rollup-plugin-copy-assets");
 
 module.exports = {
   rollup(config, options) {
@@ -17,13 +17,8 @@ module.exports = {
     config.plugins = [
       ...config.plugins,
       copy({
-        targets: [
-          {
-            src: "src/assets/*",
-            dest: `${outputDirectory}/assets`,
-            createPath: true,
-          },
-        ],
+        assets: ["src/assets"],
+        dest: `${outputDirectory}/assets`,
       }),
     ];
 
