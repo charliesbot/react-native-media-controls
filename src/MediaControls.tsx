@@ -77,7 +77,7 @@ const MediaControls = (props: Props) => {
       duration: 300,
       delay,
       useNativeDriver: false,
-    }).start(result => {
+    }).start((result) => {
       /* I noticed that the callback is called twice, when it is invoked and when it completely finished
       This prevents some flickering */
       if (result.finished) {
@@ -138,7 +138,9 @@ const MediaControls = (props: Props) => {
 
   return (
     <TouchableWithoutFeedback accessible={false} onPress={toggleControls}>
-      <Animated.View style={[styles.container, { opacity }]}>
+      <Animated.View
+        style={[styles.container, customContainerStyle, { opacity }]}
+      >
         {isVisible && (
           <View style={[styles.container, customContainerStyle]}>
             <View
