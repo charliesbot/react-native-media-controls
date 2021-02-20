@@ -77,7 +77,7 @@ const MediaControls = (props: Props) => {
       duration: 300,
       delay,
       useNativeDriver: false,
-    }).start((result) => {
+    }).start(result => {
       /* I noticed that the callback is called twice, when it is invoked and when it completely finished
       This prevents some flickering */
       if (result.finished) {
