@@ -4,7 +4,7 @@ import { PLAYER_STATES } from "./constants/playerStates";
 import { CustomSliderStyle } from "./Slider";
 export declare type Props = {
     children: React.ReactNode;
-    containerStyle: ViewStyle;
+    containerStyle?: ViewStyle;
     duration: number;
     fadeOutDelay?: number;
     isFullScreen: boolean;

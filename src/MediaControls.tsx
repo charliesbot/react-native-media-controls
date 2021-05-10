@@ -14,7 +14,7 @@ import { Toolbar } from "./Toolbar";
 
 export type Props = {
   children: React.ReactNode;
-  containerStyle: ViewStyle;
+  containerStyle?: ViewStyle;
   duration: number;
   fadeOutDelay?: number;
   isFullScreen: boolean;
@@ -66,6 +66,7 @@ const MediaControls = (props: Props) => {
 
   const [opacity] = useState(new Animated.Value(initialOpacity));
   const [isVisible, setIsVisible] = useState(initialIsVisible);
+  const [isSliderVisible, setIsSliderVisible] = useState(initialIsVisible);
 
   useEffect(() => {
     fadeOutControls(fadeOutDelay);
@@ -82,6 +83,21 @@ const MediaControls = (props: Props) => {
       This prevents some flickering */
       if (result.finished) {
         setIsVisible(false);
+      }
+    });
+  };
+
+  const sliderOnlyFadeOutControls = (delay = 0) => {
+    Animated.timing(opacity, {
+      toValue: 0,
+      duration: 300,
+      delay,
+      useNativeDriver: false,
+    }).start(result => {
+      /* I noticed that the callback is called twice, when it is invoked and when it completely finished
+      This prevents some flickering */
+      if (result.finished) {
+        setIsSliderVisible(false);
       }
     });
   };
@@ -116,7 +132,8 @@ const MediaControls = (props: Props) => {
         break;
       }
       case PAUSED: {
-        fadeOutControls(fadeOutDelay);
+        // fadeOutControls(fadeOutDelay);
+        sliderOnlyFadeOutControls(fadeOutDelay);
         break;
       }
       case ENDED:
@@ -159,17 +176,19 @@ const MediaControls = (props: Props) => {
               mainColor={mainColor}
               playerState={playerState}
             />
-            <Slider
-              progress={progress}
-              duration={duration}
-              mainColor={mainColor}
-              onFullScreen={onFullScreen}
-              playerState={playerState}
-              onSeek={onSeek}
-              onSeeking={onSeeking}
-              onPause={onPause}
-              customSliderStyle={sliderStyle}
-            />
+            {isSliderVisible ? (
+              <Slider
+                progress={progress}
+                duration={duration}
+                mainColor={mainColor}
+                onFullScreen={onFullScreen}
+                playerState={playerState}
+                onSeek={onSeek}
+                onSeeking={onSeeking}
+                onPause={onPause}
+                customSliderStyle={sliderStyle}
+              />
+            ) : null}
           </View>
         )}
       </Animated.View>

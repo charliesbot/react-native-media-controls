@@ -42,16 +42,19 @@ var styles = /*#__PURE__*/reactNative.StyleSheet.create({
   playButton: {
     alignItems: "center",
     borderColor: playButtonBorderColor,
-    borderRadius: 3,
+    borderRadius: 25,
     borderWidth: 1.5,
     height: 50,
     justifyContent: "center",
-    width: 50
+    width: 50,
+    marginTop: -25,
+    backgroundColor: "transparent"
   },
   playIcon: {
     height: 22,
     resizeMode: "contain",
-    width: 22
+    width: 22,
+    color: "white"
   },
   progressColumnContainer: {
     flex: 1
@@ -67,7 +70,8 @@ var styles = /*#__PURE__*/reactNative.StyleSheet.create({
   replayIcon: {
     height: 20,
     resizeMode: "stretch",
-    width: 25
+    width: 25,
+    color: "white"
   },
   thumb: {
     backgroundColor: white,
@@ -275,6 +279,10 @@ var MediaControls = function MediaControls(props) {
       isVisible = _useState2[0],
       setIsVisible = _useState2[1];
 
+  var _useState3 = React.useState(initialIsVisible),
+      isSliderVisible = _useState3[0],
+      setIsSliderVisible = _useState3[1];
+
   React.useEffect(function () {
     fadeOutControls(fadeOutDelay);
   }, []);
@@ -294,6 +302,25 @@ var MediaControls = function MediaControls(props) {
       This prevents some flickering */
       if (result.finished) {
         setIsVisible(false);
+      }
+    });
+  };
+
+  var sliderOnlyFadeOutControls = function sliderOnlyFadeOutControls(delay) {
+    if (delay === void 0) {
+      delay = 0;
+    }
+
+    reactNative.Animated.timing(opacity, {
+      toValue: 0,
+      duration: 300,
+      delay: delay,
+      useNativeDriver: false
+    }).start(function (result) {
+      /* I noticed that the callback is called twice, when it is invoked and when it completely finished
+      This prevents some flickering */
+      if (result.finished) {
+        setIsSliderVisible(false);
       }
     });
   };
@@ -342,7 +369,8 @@ var MediaControls = function MediaControls(props) {
 
       case PAUSED:
         {
-          fadeOutControls(fadeOutDelay);
+          // fadeOutControls(fadeOutDelay);
+          sliderOnlyFadeOutControls(fadeOutDelay);
           break;
         }
     }
@@ -377,7 +405,7 @@ var MediaControls = function MediaControls(props) {
     isLoading: isLoading,
     mainColor: mainColor,
     playerState: playerState
-  }), React__default.createElement(Slider, {
+  }), isSliderVisible ? React__default.createElement(Slider, {
     progress: progress,
     duration: duration,
     mainColor: mainColor,
@@ -387,7 +415,7 @@ var MediaControls = function MediaControls(props) {
     onSeeking: onSeeking,
     onPause: onPause,
     customSliderStyle: sliderStyle
-  }))));
+  }) : null)));
 };
 
 MediaControls.Toolbar = Toolbar;

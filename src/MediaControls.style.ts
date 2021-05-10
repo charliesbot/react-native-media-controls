@@ -34,16 +34,19 @@ export default StyleSheet.create({
   playButton: {
     alignItems: "center",
     borderColor: playButtonBorderColor,
-    borderRadius: 3,
+    borderRadius: 25,
     borderWidth: 1.5,
     height: 50,
     justifyContent: "center",
     width: 50,
+    marginTop: -25,
+    backgroundColor: "transparent",
   },
   playIcon: {
     height: 22,
     resizeMode: "contain",
     width: 22,
+    color: "white",
   },
   progressColumnContainer: {
     flex: 1,
@@ -60,6 +63,7 @@ export default StyleSheet.create({
     height: 20,
     resizeMode: "stretch",
     width: 25,
+    color: "white",
   },
   thumb: {
     backgroundColor: white,

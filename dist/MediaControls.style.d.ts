@@ -33,11 +33,14 @@ declare const _default: {
         height: number;
         justifyContent: "center";
         width: number;
+        marginTop: number;
+        backgroundColor: string;
     };
     playIcon: {
         height: number;
         resizeMode: "contain";
         width: number;
+        color: string;
     };
     progressColumnContainer: {
         flex: number;
@@ -54,6 +57,7 @@ declare const _default: {
         height: number;
         resizeMode: "stretch";
         width: number;
+        color: string;
     };
     thumb: {
         backgroundColor: string;
