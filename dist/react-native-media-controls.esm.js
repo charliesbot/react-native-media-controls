@@ -35,19 +35,18 @@ var styles = /*#__PURE__*/StyleSheet.create({
   playButton: {
     alignItems: "center",
     borderColor: playButtonBorderColor,
-    borderRadius: 25,
+    borderRadius: 20,
     borderWidth: 1.5,
-    height: 50,
+    height: 40,
     justifyContent: "center",
-    width: 50,
+    width: 40,
     marginTop: -25,
     backgroundColor: "transparent"
   },
   playIcon: {
     height: 22,
     resizeMode: "contain",
-    width: 22,
-    color: "white"
+    width: 22
   },
   progressColumnContainer: {
     flex: 1
@@ -68,10 +67,10 @@ var styles = /*#__PURE__*/StyleSheet.create({
   },
   thumb: {
     backgroundColor: white,
-    borderRadius: 50,
+    borderRadius: 15 / 2,
     borderWidth: 3,
-    height: 20,
-    width: 20
+    height: 15,
+    width: 15
   },
   timeRow: {
     alignSelf: "stretch"
@@ -137,7 +136,6 @@ var getPlayerStateIcon = function getPlayerStateIcon(playerState) {
 
 var Controls = function Controls(props) {
   var isLoading = props.isLoading,
-      mainColor = props.mainColor,
       playerState = props.playerState,
       onReplay = props.onReplay,
       onPause = props.onPause;
@@ -147,9 +145,7 @@ var Controls = function Controls(props) {
     size: "large",
     color: "#FFF"
   }) : React.createElement(TouchableOpacity, {
-    style: [styles.playButton, {
-      backgroundColor: mainColor
-    }],
+    style: [styles.playButton],
     onPress: pressAction,
     accessibilityLabel: PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause",
     accessibilityHint: "Plays and Pauses the Video"
@@ -416,5 +412,4 @@ var MediaControls = function MediaControls(props) {
 MediaControls.Toolbar = Toolbar;
 
 export default MediaControls;
-export { PLAYER_STATES };
 //# sourceMappingURL=react-native-media-controls.esm.js.map

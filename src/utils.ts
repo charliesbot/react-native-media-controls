@@ -13,12 +13,23 @@ export const noop = () => {};
 export const getPlayerStateIcon = (playerState: PLAYER_STATES) => {
   switch (playerState) {
     case PLAYER_STATES.PAUSED:
-      return require("./assets/ic_play.png");
+      return require("./assets/ic_play_new.png");
     case PLAYER_STATES.PLAYING:
-      return require("./assets/ic_pause.png");
+      return require("./assets/ic_pause_new.png");
     case PLAYER_STATES.ENDED:
       return require("./assets/ic_replay.png");
     default:
       return null;
+  }
+};
+
+export const getPlayerVolume = (volume: number) => {
+  switch (volume) {
+    case 0:
+      return require("./assets/ic_volume_mute.png");
+    case 0.5:
+      return require("./assets/ic_volume_medium.png");
+    case 1:
+      return require("./assets/ic_volume_high.png");
   }
 };

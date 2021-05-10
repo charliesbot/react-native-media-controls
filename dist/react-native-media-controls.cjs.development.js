@@ -42,19 +42,18 @@ var styles = /*#__PURE__*/reactNative.StyleSheet.create({
   playButton: {
     alignItems: "center",
     borderColor: playButtonBorderColor,
-    borderRadius: 25,
+    borderRadius: 20,
     borderWidth: 1.5,
-    height: 50,
+    height: 40,
     justifyContent: "center",
-    width: 50,
+    width: 40,
     marginTop: -25,
     backgroundColor: "transparent"
   },
   playIcon: {
     height: 22,
     resizeMode: "contain",
-    width: 22,
-    color: "white"
+    width: 22
   },
   progressColumnContainer: {
     flex: 1
@@ -75,10 +74,10 @@ var styles = /*#__PURE__*/reactNative.StyleSheet.create({
   },
   thumb: {
     backgroundColor: white,
-    borderRadius: 50,
+    borderRadius: 15 / 2,
     borderWidth: 3,
-    height: 20,
-    width: 20
+    height: 15,
+    width: 15
   },
   timeRow: {
     alignSelf: "stretch"
@@ -109,11 +108,13 @@ var styles = /*#__PURE__*/reactNative.StyleSheet.create({
   }
 });
 
+var PLAYER_STATES;
+
 (function (PLAYER_STATES) {
   PLAYER_STATES[PLAYER_STATES["PLAYING"] = 0] = "PLAYING";
   PLAYER_STATES[PLAYER_STATES["PAUSED"] = 1] = "PAUSED";
   PLAYER_STATES[PLAYER_STATES["ENDED"] = 2] = "ENDED";
-})(exports.PLAYER_STATES || (exports.PLAYER_STATES = {}));
+})(PLAYER_STATES || (PLAYER_STATES = {}));
 
 var humanizeVideoDuration = function humanizeVideoDuration(seconds) {
   var _ref = seconds >= 3600 ? [11, 8] : [14, 5],
@@ -126,13 +127,13 @@ var humanizeVideoDuration = function humanizeVideoDuration(seconds) {
 };
 var getPlayerStateIcon = function getPlayerStateIcon(playerState) {
   switch (playerState) {
-    case exports.PLAYER_STATES.PAUSED:
+    case PLAYER_STATES.PAUSED:
       return require("./assets/ic_play.png");
 
-    case exports.PLAYER_STATES.PLAYING:
+    case PLAYER_STATES.PLAYING:
       return require("./assets/ic_pause.png");
 
-    case exports.PLAYER_STATES.ENDED:
+    case PLAYER_STATES.ENDED:
       return require("./assets/ic_replay.png");
 
     default:
@@ -142,21 +143,18 @@ var getPlayerStateIcon = function getPlayerStateIcon(playerState) {
 
 var Controls = function Controls(props) {
   var isLoading = props.isLoading,
-      mainColor = props.mainColor,
       playerState = props.playerState,
       onReplay = props.onReplay,
       onPause = props.onPause;
   var icon = getPlayerStateIcon(playerState);
-  var pressAction = playerState === exports.PLAYER_STATES.ENDED ? onReplay : onPause;
+  var pressAction = playerState === PLAYER_STATES.ENDED ? onReplay : onPause;
   var content = isLoading ? React__default.createElement(reactNative.ActivityIndicator, {
     size: "large",
     color: "#FFF"
   }) : React__default.createElement(reactNative.TouchableOpacity, {
-    style: [styles.playButton, {
-      backgroundColor: mainColor
-    }],
+    style: [styles.playButton],
     onPress: pressAction,
-    accessibilityLabel: exports.PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause",
+    accessibilityLabel: PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause",
     accessibilityHint: "Plays and Pauses the Video"
   }, React__default.createElement(reactNative.Image, {
     source: icon,
@@ -185,7 +183,7 @@ var Slider = function Slider(props) {
         playerState = props.playerState;
     onSeeking(value);
 
-    if (playerState === exports.PLAYER_STATES.PAUSED) {
+    if (playerState === PLAYER_STATES.PAUSED) {
       return;
     }
 
@@ -357,8 +355,8 @@ var MediaControls = function MediaControls(props) {
   var onPause = function onPause() {
     var playerState = props.playerState,
         onPaused = props.onPaused;
-    var PLAYING = exports.PLAYER_STATES.PLAYING,
-        PAUSED = exports.PLAYER_STATES.PAUSED;
+    var PLAYING = PLAYER_STATES.PLAYING,
+        PAUSED = PLAYER_STATES.PAUSED;
 
     switch (playerState) {
       case PLAYING:

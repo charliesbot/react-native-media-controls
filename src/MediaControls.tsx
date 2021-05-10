@@ -13,7 +13,7 @@ import { Slider, CustomSliderStyle } from "./Slider";
 import { Toolbar } from "./Toolbar";
 
 export type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   containerStyle?: ViewStyle;
   duration: number;
   fadeOutDelay?: number;
@@ -30,11 +30,12 @@ export type Props = {
   showOnStart?: boolean;
   sliderStyle?: CustomSliderStyle;
   toolbarStyle?: ViewStyle;
+  volume: number;
+  onVolumeChange: () => void;
 };
 
 const MediaControls = (props: Props) => {
   const {
-    children,
     containerStyle: customContainerStyle = {},
     duration,
     fadeOutDelay = 5000,
@@ -48,7 +49,8 @@ const MediaControls = (props: Props) => {
     progress,
     showOnStart = true,
     sliderStyle, // defaults are applied in Slider.tsx
-    toolbarStyle: customToolbarStyle = {},
+    onVolumeChange,
+    volume,
   } = props;
   const { initialOpacity, initialIsVisible } = (() => {
     if (showOnStart) {
@@ -68,10 +70,6 @@ const MediaControls = (props: Props) => {
   const [isVisible, setIsVisible] = useState(initialIsVisible);
   const [isSliderVisible, setIsSliderVisible] = useState(initialIsVisible);
 
-  useEffect(() => {
-    fadeOutControls(fadeOutDelay);
-  }, []);
-
   const fadeOutControls = (delay = 0) => {
     Animated.timing(opacity, {
       toValue: 0,
@@ -87,23 +85,20 @@ const MediaControls = (props: Props) => {
     });
   };
 
-  const sliderOnlyFadeOutControls = (delay = 0) => {
-    Animated.timing(opacity, {
-      toValue: 0,
-      duration: 300,
-      delay,
-      useNativeDriver: false,
-    }).start(result => {
-      /* I noticed that the callback is called twice, when it is invoked and when it completely finished
-      This prevents some flickering */
-      if (result.finished) {
-        setIsSliderVisible(false);
-      }
-    });
+  useEffect(() => {
+    fadeOutControls(fadeOutDelay);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleVolumePress = () => {
+    onVolumeChange();
   };
 
   const fadeInControls = (loop = true) => {
     setIsVisible(true);
+    if (!isSliderVisible) {
+      setIsSliderVisible(true);
+    }
     Animated.timing(opacity, {
       toValue: 1,
       duration: 300,
@@ -124,20 +119,23 @@ const MediaControls = (props: Props) => {
   const cancelAnimation = () => opacity.stopAnimation(() => setIsVisible(true));
 
   const onPause = () => {
-    const { playerState, onPaused } = props;
+    const { playerState: pState, onPaused } = props;
     const { PLAYING, PAUSED, ENDED } = PLAYER_STATES;
-    switch (playerState) {
+    switch (pState) {
       case PLAYING: {
         cancelAnimation();
         break;
       }
       case PAUSED: {
-        // fadeOutControls(fadeOutDelay);
-        sliderOnlyFadeOutControls(fadeOutDelay);
+        fadeOutControls(fadeOutDelay);
         break;
       }
-      case ENDED:
+      case ENDED: {
         break;
+      }
+      default: {
+        break;
+      }
     }
 
     const newPlayerState = playerState === PLAYING ? PAUSED : PLAYING;
@@ -160,35 +158,26 @@ const MediaControls = (props: Props) => {
       >
         {isVisible && (
           <View style={[styles.container, customContainerStyle]}>
-            <View
-              style={[
-                styles.controlsRow,
-                styles.toolbarRow,
-                customToolbarStyle,
-              ]}
-            >
-              {children}
-            </View>
+            <Slider
+              progress={progress}
+              duration={duration}
+              mainColor={mainColor}
+              onFullScreen={onFullScreen}
+              playerState={playerState}
+              onSeek={onSeek}
+              onSeeking={onSeeking}
+              onPause={onPause}
+              customSliderStyle={sliderStyle}
+            />
             <Controls
               onPause={onPause}
               onReplay={onReplay}
               isLoading={isLoading}
               mainColor={mainColor}
               playerState={playerState}
+              onVolumePress={handleVolumePress}
+              volume={volume}
             />
-            {isSliderVisible ? (
-              <Slider
-                progress={progress}
-                duration={duration}
-                mainColor={mainColor}
-                onFullScreen={onFullScreen}
-                playerState={playerState}
-                onSeek={onSeek}
-                onSeeking={onSeeking}
-                onPause={onPause}
-                customSliderStyle={sliderStyle}
-              />
-            ) : null}
           </View>
         )}
       </Animated.View>

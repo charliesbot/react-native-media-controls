@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { StyleSheet } from "react-native";
 
 const containerBackgroundColor = "rgba(45, 59, 62, 0.4)";
@@ -7,11 +8,12 @@ const white = "#fff";
 export default StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: containerBackgroundColor,
+    // backgroundColor: containerBackgroundColor,
+    backgroundColor: "blue",
     bottom: 0,
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     left: 0,
     paddingHorizontal: 20,
     paddingVertical: 13,
@@ -21,9 +23,8 @@ export default StyleSheet.create({
   },
   controlsRow: {
     alignItems: "center",
-    alignSelf: "stretch",
-    flex: 1,
     justifyContent: "center",
+    width: "100%",
   },
   fullScreenContainer: {
     alignItems: "center",
@@ -32,21 +33,20 @@ export default StyleSheet.create({
     paddingLeft: 20,
   },
   playButton: {
-    alignItems: "center",
-    borderColor: playButtonBorderColor,
-    borderRadius: 25,
-    borderWidth: 1.5,
-    height: 50,
-    justifyContent: "center",
-    width: 50,
-    marginTop: -25,
+    borderColor: "white",
+    height: 40,
+    width: 40,
     backgroundColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "flex-start",
+    marginRight: 10,
   },
   playIcon: {
     height: 22,
     resizeMode: "contain",
     width: 22,
-    color: "white",
+    alignSelf: "center",
   },
   progressColumnContainer: {
     flex: 1,
@@ -54,7 +54,6 @@ export default StyleSheet.create({
   progressContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    marginBottom: -25,
   },
   progressSlider: {
     alignSelf: "stretch",
@@ -67,10 +66,10 @@ export default StyleSheet.create({
   },
   thumb: {
     backgroundColor: white,
-    borderRadius: 50,
+    borderRadius: 15 / 2,
     borderWidth: 3,
-    height: 20,
-    width: 20,
+    height: 15,
+    width: 15,
   },
   timeRow: {
     alignSelf: "stretch",
@@ -98,5 +97,9 @@ export default StyleSheet.create({
   track: {
     borderRadius: 1,
     height: 5,
+  },
+  controllerContainer: {
+    width: "100%",
+    flexDirection: "row",
   },
 });

@@ -40,7 +40,6 @@ declare const _default: {
         height: number;
         resizeMode: "contain";
         width: number;
-        color: string;
     };
     progressColumnContainer: {
         flex: number;
