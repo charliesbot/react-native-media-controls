@@ -85,7 +85,7 @@ const Slider = (props: Props) => {
           ]}
           minimumTrackTintColor={mainColor}
           disabled={false}
-          iconComponent={{} as Object}
+          iconComponent={null}
         />
       </View>
       {Boolean(onFullScreen) && (

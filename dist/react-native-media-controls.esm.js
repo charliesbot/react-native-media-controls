@@ -210,7 +210,7 @@ var Slider = function Slider(props) {
     }],
     minimumTrackTintColor: mainColor,
     disabled: false,
-    iconComponent: {}
+    iconComponent: null
   })), Boolean(onFullScreen) && React.createElement(TouchableOpacity, {
     style: styles.fullScreenContainer,
     onPress: onFullScreen
