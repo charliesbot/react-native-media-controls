@@ -1,6 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from "react";
 import { TouchableOpacity, View, Image } from "react-native";
 import styles from "./MediaControls.style";
@@ -18,14 +15,7 @@ type ControlsProps = Pick<
 };
 
 const Controls = (props: ControlsProps) => {
-  const {
-    isLoading,
-    playerState,
-    volume,
-    onReplay,
-    onPause,
-    onVolumePress,
-  } = props;
+  const { playerState, volume, onReplay, onPause, onVolumePress } = props;
   const icon = getPlayerStateIcon(playerState);
   const volumeIcon = getPlayerVolume(volume);
   const pressAction = playerState === PLAYER_STATES.ENDED ? onReplay : onPause;

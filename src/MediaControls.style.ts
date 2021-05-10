@@ -1,8 +1,5 @@
-/* eslint-disable prettier/prettier */
 import { StyleSheet } from "react-native";
 
-const containerBackgroundColor = "rgba(45, 59, 62, 0.4)";
-const playButtonBorderColor = "rgba(255,255,255,0.5)";
 const white = "#fff";
 
 export default StyleSheet.create({

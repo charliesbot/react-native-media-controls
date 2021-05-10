@@ -9,17 +9,16 @@ var React__default = _interopDefault(React);
 var reactNative = require('react-native');
 var RNSlider = _interopDefault(require('react-native-slider'));
 
-var containerBackgroundColor = "rgba(45, 59, 62, 0.4)";
-var playButtonBorderColor = "rgba(255,255,255,0.5)";
 var white = "#fff";
 var styles = /*#__PURE__*/reactNative.StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: containerBackgroundColor,
+    // backgroundColor: containerBackgroundColor,
+    backgroundColor: "blue",
     bottom: 0,
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     left: 0,
     paddingHorizontal: 20,
     paddingVertical: 13,
@@ -29,9 +28,8 @@ var styles = /*#__PURE__*/reactNative.StyleSheet.create({
   },
   controlsRow: {
     alignItems: "center",
-    alignSelf: "stretch",
-    flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
+    width: "100%"
   },
   fullScreenContainer: {
     alignItems: "center",
@@ -40,28 +38,27 @@ var styles = /*#__PURE__*/reactNative.StyleSheet.create({
     paddingLeft: 20
   },
   playButton: {
-    alignItems: "center",
-    borderColor: playButtonBorderColor,
-    borderRadius: 20,
-    borderWidth: 1.5,
+    borderColor: "white",
     height: 40,
-    justifyContent: "center",
     width: 40,
-    marginTop: -25,
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "flex-start",
+    marginRight: 10
   },
   playIcon: {
     height: 22,
     resizeMode: "contain",
-    width: 22
+    width: 22,
+    alignSelf: "center"
   },
   progressColumnContainer: {
     flex: 1
   },
   progressContainer: {
     flexDirection: "row",
-    justifyContent: "flex-end",
-    marginBottom: -25
+    justifyContent: "flex-end"
   },
   progressSlider: {
     alignSelf: "stretch"
@@ -105,16 +102,18 @@ var styles = /*#__PURE__*/reactNative.StyleSheet.create({
   track: {
     borderRadius: 1,
     height: 5
+  },
+  controllerContainer: {
+    width: "100%",
+    flexDirection: "row"
   }
 });
-
-var PLAYER_STATES;
 
 (function (PLAYER_STATES) {
   PLAYER_STATES[PLAYER_STATES["PLAYING"] = 0] = "PLAYING";
   PLAYER_STATES[PLAYER_STATES["PAUSED"] = 1] = "PAUSED";
   PLAYER_STATES[PLAYER_STATES["ENDED"] = 2] = "ENDED";
-})(PLAYER_STATES || (PLAYER_STATES = {}));
+})(exports.PLAYER_STATES || (exports.PLAYER_STATES = {}));
 
 var humanizeVideoDuration = function humanizeVideoDuration(seconds) {
   var _ref = seconds >= 3600 ? [11, 8] : [14, 5],
@@ -127,39 +126,67 @@ var humanizeVideoDuration = function humanizeVideoDuration(seconds) {
 };
 var getPlayerStateIcon = function getPlayerStateIcon(playerState) {
   switch (playerState) {
-    case PLAYER_STATES.PAUSED:
-      return require("./assets/ic_play.png");
+    case exports.PLAYER_STATES.PAUSED:
+      return require("./assets/ic_play_new.png");
 
-    case PLAYER_STATES.PLAYING:
-      return require("./assets/ic_pause.png");
+    case exports.PLAYER_STATES.PLAYING:
+      return require("./assets/ic_pause_new.png");
 
-    case PLAYER_STATES.ENDED:
+    case exports.PLAYER_STATES.ENDED:
       return require("./assets/ic_replay.png");
 
     default:
       return null;
   }
 };
+var getPlayerVolume = function getPlayerVolume(volume) {
+  switch (volume) {
+    case 0:
+      return require("./assets/ic_volume_mute.png");
+
+    case 0.5:
+      return require("./assets/ic_volume_medium.png");
+
+    case 1:
+      return require("./assets/ic_volume_high.png");
+  }
+};
 
 var Controls = function Controls(props) {
-  var isLoading = props.isLoading,
-      playerState = props.playerState,
+  var playerState = props.playerState,
+      volume = props.volume,
       onReplay = props.onReplay,
-      onPause = props.onPause;
+      onPause = props.onPause,
+      onVolumePress = props.onVolumePress;
   var icon = getPlayerStateIcon(playerState);
-  var pressAction = playerState === PLAYER_STATES.ENDED ? onReplay : onPause;
-  var content = isLoading ? React__default.createElement(reactNative.ActivityIndicator, {
-    size: "large",
-    color: "#FFF"
-  }) : React__default.createElement(reactNative.TouchableOpacity, {
+  var volumeIcon = getPlayerVolume(volume);
+  var pressAction = playerState === exports.PLAYER_STATES.ENDED ? onReplay : onPause;
+
+  var handleVolumeActionPress = function handleVolumeActionPress() {
+    onVolumePress();
+  };
+
+  var content = React__default.createElement(reactNative.View, {
+    style: styles.controllerContainer
+  }, React__default.createElement(reactNative.TouchableOpacity, {
     style: [styles.playButton],
+    activeOpacity: 1,
     onPress: pressAction,
-    accessibilityLabel: PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause",
+    accessibilityLabel: exports.PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause",
     accessibilityHint: "Plays and Pauses the Video"
   }, React__default.createElement(reactNative.Image, {
     source: icon,
     style: styles.playIcon
-  }));
+  })), React__default.createElement(reactNative.TouchableOpacity, {
+    style: [styles.playButton],
+    onPress: handleVolumeActionPress,
+    activeOpacity: 1,
+    accessibilityLabel: volume === 0 ? "Player muted" : volume === 0.5 ? "Player volume medium" : "Player volume high",
+    accessibilityHint: "Indicates player volume"
+  }, React__default.createElement(reactNative.Image, {
+    source: volumeIcon,
+    style: styles.playIcon
+  })));
   return React__default.createElement(reactNative.View, {
     style: [styles.controlsRow]
   }, content);
@@ -183,7 +210,7 @@ var Slider = function Slider(props) {
         playerState = props.playerState;
     onSeeking(value);
 
-    if (playerState === PLAYER_STATES.PAUSED) {
+    if (playerState === exports.PLAYER_STATES.PAUSED) {
       return;
     }
 
@@ -232,8 +259,7 @@ var Toolbar = function Toolbar(_ref) {
 };
 
 var MediaControls = function MediaControls(props) {
-  var children = props.children,
-      _props$containerStyle = props.containerStyle,
+  var _props$containerStyle = props.containerStyle,
       customContainerStyle = _props$containerStyle === void 0 ? {} : _props$containerStyle,
       duration = props.duration,
       _props$fadeOutDelay = props.fadeOutDelay,
@@ -251,8 +277,8 @@ var MediaControls = function MediaControls(props) {
       _props$showOnStart = props.showOnStart,
       showOnStart = _props$showOnStart === void 0 ? true : _props$showOnStart,
       sliderStyle = props.sliderStyle,
-      _props$toolbarStyle = props.toolbarStyle,
-      customToolbarStyle = _props$toolbarStyle === void 0 ? {} : _props$toolbarStyle;
+      onVolumeChange = props.onVolumeChange,
+      volume = props.volume;
 
   var _ref = function () {
     if (showOnStart) {
@@ -281,10 +307,6 @@ var MediaControls = function MediaControls(props) {
       isSliderVisible = _useState3[0],
       setIsSliderVisible = _useState3[1];
 
-  React.useEffect(function () {
-    fadeOutControls(fadeOutDelay);
-  }, []);
-
   var fadeOutControls = function fadeOutControls(delay) {
     if (delay === void 0) {
       delay = 0;
@@ -304,23 +326,12 @@ var MediaControls = function MediaControls(props) {
     });
   };
 
-  var sliderOnlyFadeOutControls = function sliderOnlyFadeOutControls(delay) {
-    if (delay === void 0) {
-      delay = 0;
-    }
+  React.useEffect(function () {
+    fadeOutControls(fadeOutDelay); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    reactNative.Animated.timing(opacity, {
-      toValue: 0,
-      duration: 300,
-      delay: delay,
-      useNativeDriver: false
-    }).start(function (result) {
-      /* I noticed that the callback is called twice, when it is invoked and when it completely finished
-      This prevents some flickering */
-      if (result.finished) {
-        setIsSliderVisible(false);
-      }
-    });
+  var handleVolumePress = function handleVolumePress() {
+    onVolumeChange();
   };
 
   var fadeInControls = function fadeInControls(loop) {
@@ -329,6 +340,11 @@ var MediaControls = function MediaControls(props) {
     }
 
     setIsVisible(true);
+
+    if (!isSliderVisible) {
+      setIsSliderVisible(true);
+    }
+
     reactNative.Animated.timing(opacity, {
       toValue: 1,
       duration: 300,
@@ -353,12 +369,12 @@ var MediaControls = function MediaControls(props) {
   };
 
   var onPause = function onPause() {
-    var playerState = props.playerState,
+    var pState = props.playerState,
         onPaused = props.onPaused;
-    var PLAYING = PLAYER_STATES.PLAYING,
-        PAUSED = PLAYER_STATES.PAUSED;
+    var PLAYING = exports.PLAYER_STATES.PLAYING,
+        PAUSED = exports.PLAYER_STATES.PAUSED;
 
-    switch (playerState) {
+    switch (pState) {
       case PLAYING:
         {
           cancelAnimation();
@@ -367,8 +383,7 @@ var MediaControls = function MediaControls(props) {
 
       case PAUSED:
         {
-          // fadeOutControls(fadeOutDelay);
-          sliderOnlyFadeOutControls(fadeOutDelay);
+          fadeOutControls(fadeOutDelay);
           break;
         }
     }
@@ -395,15 +410,7 @@ var MediaControls = function MediaControls(props) {
     }]
   }, isVisible && React__default.createElement(reactNative.View, {
     style: [styles.container, customContainerStyle]
-  }, React__default.createElement(reactNative.View, {
-    style: [styles.controlsRow, styles.toolbarRow, customToolbarStyle]
-  }, children), React__default.createElement(Controls, {
-    onPause: onPause,
-    onReplay: onReplay,
-    isLoading: isLoading,
-    mainColor: mainColor,
-    playerState: playerState
-  }), isSliderVisible ? React__default.createElement(Slider, {
+  }, React__default.createElement(Slider, {
     progress: progress,
     duration: duration,
     mainColor: mainColor,
@@ -413,7 +420,15 @@ var MediaControls = function MediaControls(props) {
     onSeeking: onSeeking,
     onPause: onPause,
     customSliderStyle: sliderStyle
-  }) : null)));
+  }), React__default.createElement(Controls, {
+    onPause: onPause,
+    onReplay: onReplay,
+    isLoading: isLoading,
+    mainColor: mainColor,
+    playerState: playerState,
+    onVolumePress: handleVolumePress,
+    volume: volume
+  }))));
 };
 
 MediaControls.Toolbar = Toolbar;
