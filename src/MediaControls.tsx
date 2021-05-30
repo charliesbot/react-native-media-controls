@@ -25,6 +25,8 @@ export type Props = {
   onReplay: () => void;
   onSeek: (value: number) => void;
   onSeeking: (value: number) => void;
+  onMutePress: () => void;
+  isMute: boolean;
   playerState: PLAYER_STATES;
   progress: number;
   showOnStart?: boolean;
@@ -49,6 +51,8 @@ const MediaControls = (props: Props) => {
     showOnStart = true,
     sliderStyle, // defaults are applied in Slider.tsx
     toolbarStyle: customToolbarStyle = {},
+    isMute,
+    onMutePress,
   } = props;
   const { initialOpacity, initialIsVisible } = (() => {
     if (showOnStart) {
@@ -77,7 +81,7 @@ const MediaControls = (props: Props) => {
       duration: 300,
       delay,
       useNativeDriver: false,
-    }).start(result => {
+    }).start((result) => {
       /* I noticed that the callback is called twice, when it is invoked and when it completely finished
       This prevents some flickering */
       if (result.finished) {
@@ -169,6 +173,8 @@ const MediaControls = (props: Props) => {
               onSeeking={onSeeking}
               onPause={onPause}
               customSliderStyle={sliderStyle}
+              isMute={isMute}
+              onMutePress={onMutePress}
             />
           </View>
         )}

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-const containerBackgroundColor = "rgba(45, 59, 62, 0.4)";
+const containerBackgroundColor = "rgba(45, 59, 62, 0.1)";
 const playButtonBorderColor = "rgba(255,255,255,0.5)";
 const white = "#fff";
 
@@ -14,7 +14,6 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     left: 0,
     paddingHorizontal: 20,
-    paddingVertical: 13,
     position: "absolute",
     right: 0,
     top: 0,
@@ -29,24 +28,23 @@ export default StyleSheet.create({
     alignItems: "center",
     alignSelf: "stretch",
     justifyContent: "center",
-    paddingLeft: 20,
+    paddingLeft: 10,
   },
   playButton: {
     alignItems: "center",
-    borderColor: playButtonBorderColor,
-    borderRadius: 3,
-    borderWidth: 1.5,
     height: 50,
     justifyContent: "center",
     width: 50,
   },
   playIcon: {
-    height: 22,
+    height: 40,
     resizeMode: "contain",
-    width: 22,
+    width: 40,
   },
   progressColumnContainer: {
     flex: 1,
+    flexDirection: "row",
+    alignItems: "stretch",
   },
   progressContainer: {
     flexDirection: "row",
@@ -55,6 +53,9 @@ export default StyleSheet.create({
   },
   progressSlider: {
     alignSelf: "stretch",
+    flex: 1,
+    marginStart: 8,
+    marginEnd: 8,
   },
   replayIcon: {
     height: 20,
@@ -63,10 +64,8 @@ export default StyleSheet.create({
   },
   thumb: {
     backgroundColor: white,
-    borderRadius: 50,
-    borderWidth: 3,
-    height: 20,
-    width: 20,
+    height: 16,
+    width: 16,
   },
   timeRow: {
     alignSelf: "stretch",
@@ -76,10 +75,7 @@ export default StyleSheet.create({
     fontSize: 12,
   },
   timerLabelsContainer: {
-    alignSelf: "stretch",
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: -7,
   },
   toolbar: {
     flexDirection: "row",
@@ -93,6 +89,6 @@ export default StyleSheet.create({
   },
   track: {
     borderRadius: 1,
-    height: 5,
+    height: 3,
   },
 });

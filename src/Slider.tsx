@@ -1,8 +1,15 @@
 import React from "react";
-import { TouchableOpacity, View, Text, Image, ViewStyle } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  Image,
+  ViewStyle,
+  Platform,
+} from "react-native";
 import RNSlider from "react-native-slider";
 import styles from "./MediaControls.style";
-import { humanizeVideoDuration } from "./utils";
+import { getPlayerStateIcon, humanizeVideoDuration } from "./utils";
 import { Props as MediaControlsProps } from "./MediaControls";
 import { PLAYER_STATES } from "./constants/playerStates";
 
@@ -24,6 +31,8 @@ type Props = Pick<
 > & {
   onPause: () => void;
   customSliderStyle?: CustomSliderStyle;
+  isMute: boolean;
+  onMutePress: () => void;
 };
 
 const fullScreenImage = require("./assets/ic_fullscreen.png");
@@ -36,11 +45,16 @@ const Slider = (props: Props) => {
     onFullScreen,
     onPause,
     progress,
+    onMutePress,
+    isMute = false,
   } = props;
 
   const containerStyle = customSliderStyle?.containerStyle || {};
   const customTrackStyle = customSliderStyle?.trackStyle || {};
   const customThumbStyle = customSliderStyle?.thumbStyle || {};
+  const iconVolume = getPlayerStateIcon(
+    isMute ? PLAYER_STATES.MUTE : PLAYER_STATES.UN_MUTE,
+  );
 
   const dragging = (value: number) => {
     const { onSeeking, playerState } = props;
@@ -62,15 +76,8 @@ const Slider = (props: Props) => {
     <View
       style={[styles.controlsRow, styles.progressContainer, containerStyle]}
     >
-      <View style={styles.progressColumnContainer}>
-        <View style={[styles.timerLabelsContainer]}>
-          <Text style={styles.timerLabel}>
-            {humanizeVideoDuration(progress)}
-          </Text>
-          <Text style={styles.timerLabel}>
-            {humanizeVideoDuration(duration)}
-          </Text>
-        </View>
+      <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
+        <Text style={styles.timerLabel}>{humanizeVideoDuration(progress)}</Text>
         <RNSlider
           style={[styles.progressSlider]}
           onValueChange={dragging}
@@ -78,22 +85,25 @@ const Slider = (props: Props) => {
           maximumValue={Math.floor(duration)}
           value={Math.floor(progress)}
           trackStyle={[styles.track, customTrackStyle]}
-          thumbStyle={[
-            styles.thumb,
-            customThumbStyle,
-            { borderColor: mainColor },
-          ]}
-          minimumTrackTintColor={mainColor}
+          thumbStyle={[styles.thumb, customThumbStyle]}
+          minimumTrackTintColor={"white"}
         />
-      </View>
-      {Boolean(onFullScreen) && (
+        <Text style={styles.timerLabel}>{humanizeVideoDuration(duration)}</Text>
         <TouchableOpacity
           style={styles.fullScreenContainer}
-          onPress={onFullScreen}
+          onPress={onMutePress}
         >
-          <Image source={fullScreenImage} />
+          <Image source={iconVolume} style={{ width: 20, height: 20 }} />
         </TouchableOpacity>
-      )}
+        {Boolean(onFullScreen) && (
+          <TouchableOpacity
+            style={styles.fullScreenContainer}
+            onPress={onFullScreen}
+          >
+            <Image source={fullScreenImage} />
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };
