@@ -49,3 +49,4 @@ example/android/keystores/debug.keystore
 lib/
 
 yarn-error.log
+example/ios/Podfile.lock
