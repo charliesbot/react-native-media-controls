@@ -18,6 +18,10 @@ export const getPlayerStateIcon = (playerState: PLAYER_STATES) => {
       return require("./assets/ic_pause.png");
     case PLAYER_STATES.ENDED:
       return require("./assets/ic_replay.png");
+    case PLAYER_STATES.MUTE:
+      return require("./assets/ic_mute.png");
+    case PLAYER_STATES.UN_MUTE:
+      return require("./assets/volume.png");
     default:
       return null;
   }
