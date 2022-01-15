@@ -34,6 +34,7 @@ export type Props = {
   maximumTrackTintColor?: string;
   minimumTrackTintColor?: string;
   thumbTintColor?: string;
+  disableTrack?: boolean;
 };
 
 const MediaControls = (props: Props) => {
@@ -56,6 +57,7 @@ const MediaControls = (props: Props) => {
     maximumTrackTintColor,
     minimumTrackTintColor,
     thumbTintColor,
+    disableTrack,
   } = props;
   const { initialOpacity, initialIsVisible } = (() => {
     if (showOnStart) {
@@ -179,6 +181,7 @@ const MediaControls = (props: Props) => {
               maximumTrackTintColor={maximumTrackTintColor}
               minimumTrackTintColor={minimumTrackTintColor}
               thumbTintColor={thumbTintColor}
+              disableTrack={disableTrack}
             />
           </View>
         )}

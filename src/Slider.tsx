@@ -26,6 +26,7 @@ type Props = Pick<
   maximumTrackTintColor?: string;
   minimumTrackTintColor?: string;
   thumbTintColor?: string;
+  disableTrack?: boolean;
 };
 
 const fullScreenImage = require("./assets/ic_fullscreen.png");
@@ -41,6 +42,7 @@ const Slider = (props: Props) => {
     maximumTrackTintColor,
     minimumTrackTintColor,
     thumbTintColor,
+    disableTrack,
   } = props;
 
   const containerStyle = customSliderStyle?.containerStyle || {};
@@ -88,6 +90,7 @@ const Slider = (props: Props) => {
           maximumTrackTintColor={
             maximumTrackTintColor ? maximumTrackTintColor : mainColor
           }
+          disabled={disableTrack}
         />
         {/* <RNSlider
           style={[styles.progressSlider]}
