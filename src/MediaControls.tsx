@@ -14,7 +14,7 @@ import { Toolbar } from "./Toolbar";
 
 export type Props = {
   children: React.ReactNode;
-  containerStyle: ViewStyle;
+  containerStyle?: ViewStyle;
   duration: number;
   fadeOutDelay?: number;
   isFullScreen: boolean;
