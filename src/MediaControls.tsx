@@ -14,7 +14,7 @@ import { Toolbar } from "./Toolbar";
 
 export type Props = {
   children: React.ReactNode;
-  containerStyle: ViewStyle;
+  containerStyle?: ViewStyle;
   duration: number;
   fadeOutDelay?: number;
   isFullScreen: boolean;
@@ -30,6 +30,11 @@ export type Props = {
   showOnStart?: boolean;
   sliderStyle?: CustomSliderStyle;
   toolbarStyle?: ViewStyle;
+
+  maximumTrackTintColor?: string;
+  minimumTrackTintColor?: string;
+  thumbTintColor?: string;
+  disableTrack?: boolean;
 };
 
 const MediaControls = (props: Props) => {
@@ -49,6 +54,10 @@ const MediaControls = (props: Props) => {
     showOnStart = true,
     sliderStyle, // defaults are applied in Slider.tsx
     toolbarStyle: customToolbarStyle = {},
+    maximumTrackTintColor,
+    minimumTrackTintColor,
+    thumbTintColor,
+    disableTrack,
   } = props;
   const { initialOpacity, initialIsVisible } = (() => {
     if (showOnStart) {
@@ -77,7 +86,7 @@ const MediaControls = (props: Props) => {
       duration: 300,
       delay,
       useNativeDriver: false,
-    }).start(result => {
+    }).start((result: { finished: any }) => {
       /* I noticed that the callback is called twice, when it is invoked and when it completely finished
       This prevents some flickering */
       if (result.finished) {
@@ -169,6 +178,10 @@ const MediaControls = (props: Props) => {
               onSeeking={onSeeking}
               onPause={onPause}
               customSliderStyle={sliderStyle}
+              maximumTrackTintColor={maximumTrackTintColor}
+              minimumTrackTintColor={minimumTrackTintColor}
+              thumbTintColor={thumbTintColor}
+              disableTrack={disableTrack}
             />
           </View>
         )}

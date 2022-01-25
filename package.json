@@ -1,10 +1,7 @@
 {
-  "version": "2.3.0",
-  "name": "react-native-media-controls",
-  "author": {
-    "name": "Charlie L",
-    "email": "charliesbot@gmail.com"
-  },
+  "version": "1.0.3",
+  "name": "rn-media-controller",
+  "author": "EagleLion systems <contact@eaglelionsystems.com>",
   "license": "MIT",
   "keywords": [
     "react-native",
@@ -42,14 +39,22 @@
     }
   },
   "devDependencies": {
+    "@react-native-community/slider": "^4.1.12",
     "@types/react": "^16.9.34",
     "@types/react-native": "^0.62.5",
     "husky": "^4.2.5",
-    "react": "^16.13.1",
-    "react-native-slider": "^0.11.0",
     "rollup-plugin-copy-assets": "^2.0.3",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
-  }
+  },
+  "description": "A sweet UI component to manipulate your media. Strongly typed using Typescript.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayuleul/react-native-media-controls.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ayuleul/react-native-media-controls/issues"
+  },
+  "homepage": "https://github.com/ayuleul/react-native-media-controls#readme"
 }

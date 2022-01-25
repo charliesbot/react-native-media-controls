@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View, Text, Image, ViewStyle } from "react-native";
-import RNSlider from "react-native-slider";
+import CSlider from "@react-native-community/slider";
 import styles from "./MediaControls.style";
 import { humanizeVideoDuration } from "./utils";
 import { Props as MediaControlsProps } from "./MediaControls";
@@ -9,7 +9,6 @@ import { PLAYER_STATES } from "./constants/playerStates";
 export type CustomSliderStyle = {
   containerStyle: ViewStyle;
   trackStyle: ViewStyle;
-  thumbStyle: ViewStyle;
 };
 
 type Props = Pick<
@@ -24,6 +23,10 @@ type Props = Pick<
 > & {
   onPause: () => void;
   customSliderStyle?: CustomSliderStyle;
+  maximumTrackTintColor?: string;
+  minimumTrackTintColor?: string;
+  thumbTintColor?: string;
+  disableTrack?: boolean;
 };
 
 const fullScreenImage = require("./assets/ic_fullscreen.png");
@@ -36,11 +39,14 @@ const Slider = (props: Props) => {
     onFullScreen,
     onPause,
     progress,
+    maximumTrackTintColor,
+    minimumTrackTintColor,
+    thumbTintColor,
+    disableTrack,
   } = props;
 
   const containerStyle = customSliderStyle?.containerStyle || {};
   const customTrackStyle = customSliderStyle?.trackStyle || {};
-  const customThumbStyle = customSliderStyle?.thumbStyle || {};
 
   const dragging = (value: number) => {
     const { onSeeking, playerState } = props;
@@ -71,7 +77,22 @@ const Slider = (props: Props) => {
             {humanizeVideoDuration(duration)}
           </Text>
         </View>
-        <RNSlider
+        <CSlider
+          style={[styles.progressSlider, customTrackStyle]}
+          onValueChange={dragging}
+          onSlidingComplete={seekVideo}
+          maximumValue={Math.floor(duration)}
+          value={Math.floor(progress)}
+          thumbTintColor={thumbTintColor ? thumbTintColor : mainColor}
+          minimumTrackTintColor={
+            minimumTrackTintColor ? minimumTrackTintColor : mainColor
+          }
+          maximumTrackTintColor={
+            maximumTrackTintColor ? maximumTrackTintColor : mainColor
+          }
+          disabled={disableTrack}
+        />
+        {/* <RNSlider
           style={[styles.progressSlider]}
           onValueChange={dragging}
           onSlidingComplete={seekVideo}
@@ -84,7 +105,7 @@ const Slider = (props: Props) => {
             { borderColor: mainColor },
           ]}
           minimumTrackTintColor={mainColor}
-        />
+        /> */}
       </View>
       {Boolean(onFullScreen) && (
         <TouchableOpacity
