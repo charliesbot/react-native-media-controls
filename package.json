@@ -1,5 +1,5 @@
 {
-  "version": "2.2.0",
+  "version": "2.3.0",
   "name": "react-native-media-controls",
   "author": {
     "name": "Charlie L",
@@ -29,7 +29,6 @@
     "start": "tsdx watch",
     "dev": "tsdx watch --localDev",
     "build": "tsdx build",
-    "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "tsdx build"
   },
@@ -48,7 +47,7 @@
     "husky": "^4.2.5",
     "react": "^16.13.1",
     "react-native-slider": "^0.11.0",
-    "rollup-plugin-copy": "^3.3.0",
+    "rollup-plugin-copy-assets": "^2.0.3",
     "tsdx": "^0.13.2",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"

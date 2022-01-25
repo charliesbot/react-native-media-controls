@@ -28,8 +28,8 @@ export type Props = {
   playerState: PLAYER_STATES;
   progress: number;
   showOnStart?: boolean;
-  sliderStyle: CustomSliderStyle;
-  toolbarStyle: ViewStyle;
+  sliderStyle?: CustomSliderStyle;
+  toolbarStyle?: ViewStyle;
 };
 
 const MediaControls = (props: Props) => {
@@ -138,7 +138,9 @@ const MediaControls = (props: Props) => {
 
   return (
     <TouchableWithoutFeedback accessible={false} onPress={toggleControls}>
-      <Animated.View style={[styles.container, { opacity }]}>
+      <Animated.View
+        style={[styles.container, customContainerStyle, { opacity }]}
+      >
         {isVisible && (
           <View style={[styles.container, customContainerStyle]}>
             <View
