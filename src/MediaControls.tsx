@@ -68,7 +68,9 @@ const MediaControls = (props: Props) => {
   const [isVisible, setIsVisible] = useState(initialIsVisible);
 
   useEffect(() => {
-    fadeOutControls(fadeOutDelay);
+    if (playerState === PLAYER_STATES.PLAYING) {
+      fadeOutControls(fadeOutDelay);
+    }
   }, []);
 
   const fadeOutControls = (delay = 0) => {
