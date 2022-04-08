@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import React from "react";
 import { TouchableOpacity, View, Text, Image, ViewStyle } from "react-native";
 import RNSlider from "react-native-slider";

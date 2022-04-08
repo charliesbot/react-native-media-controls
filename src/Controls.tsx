@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import React from "react";
 import { TouchableOpacity, View, ActivityIndicator, Image } from "react-native";
 import styles from "./MediaControls.style";
