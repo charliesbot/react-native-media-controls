@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  View,
-  Animated,
-  TouchableWithoutFeedback,
-  GestureResponderEvent,
-  ViewStyle,
+  Animated, GestureResponderEvent, TouchableWithoutFeedback, View, ViewStyle
 } from "react-native";
-import styles from "./MediaControls.style";
 import { PLAYER_STATES } from "./constants/playerStates";
 import { Controls } from "./Controls";
-import { Slider, CustomSliderStyle } from "./Slider";
+import styles from "./MediaControls.style";
+import { CustomSliderStyle, Slider } from "./Slider";
 import { Toolbar } from "./Toolbar";
 
 export type Props = {
@@ -25,6 +21,7 @@ export type Props = {
   onReplay: () => void;
   onSeek: (value: number) => void;
   onSeeking: (value: number) => void;
+  onDoubleTap: () => void;
   playerState: PLAYER_STATES;
   progress: number;
   showOnStart?: boolean;
@@ -37,13 +34,14 @@ const MediaControls = (props: Props) => {
     children,
     containerStyle: customContainerStyle = {},
     duration,
-    fadeOutDelay = 5000,
+    fadeOutDelay = 700,
     isLoading = false,
     mainColor = "rgba(12, 83, 175, 0.9)",
     onFullScreen,
     onReplay: onReplayCallback,
     onSeek,
     onSeeking,
+    onDoubleTap,
     playerState,
     progress,
     showOnStart = true,
@@ -66,6 +64,9 @@ const MediaControls = (props: Props) => {
 
   const [opacity] = useState(new Animated.Value(initialOpacity));
   const [isVisible, setIsVisible] = useState(initialIsVisible);
+
+  //NOTE: ダブルタップの可能性があるかどうかを判定する
+  const doubleTapPotential = useRef(false);
 
   useEffect(() => {
     fadeOutControls(fadeOutDelay);
@@ -136,8 +137,32 @@ const MediaControls = (props: Props) => {
     });
   };
 
+  //NOTE: ダブルタップと判定する時間
+  const DOUBLE_TAP_DELAY = 230;
+
+  //NOTE: ダブルタップかシングルタップかを判定する
+  const _onPress = () => {
+    //NOTE: ダブルタップポテンシャルがtrueの時だったらダブルタップされたとみなす
+    if (doubleTapPotential.current) {
+      onDoubleTap();
+      doubleTapPotential.current = false;
+    } else { //NOTE: 違ったらダブルタップポテンシャルをtrueにして次のタップを待つ
+      doubleTapPotential.current = true;
+      setTimeout(() => {
+        //NOTE: ダブルタップポテンシャルがtrueのままだとダブルタップじゃないので、シングル
+        //NOTE: ダブルタップポテンシャルがfalseになっていたら、もうダブルタップが処理されているので処理なし
+        if (doubleTapPotential.current) {
+          toggleControls();
+          doubleTapPotential.current = false;
+        } else {
+          doubleTapPotential.current = false;
+        }
+      }, DOUBLE_TAP_DELAY);
+    }
+  }
+
   return (
-    <TouchableWithoutFeedback accessible={false} onPress={toggleControls}>
+    <TouchableWithoutFeedback accessible={false} onPress={_onPress}>
       <Animated.View
         style={[styles.container, customContainerStyle, { opacity }]}
       >

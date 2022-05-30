@@ -1,8 +1,10 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
-const containerBackgroundColor = "rgba(45, 59, 62, 0.4)";
+const containerBackgroundColor = "rgba(0, 0, 0, 0.2)";
 const playButtonBorderColor = "rgba(255,255,255,0.5)";
 const white = "#fff";
+
+const {height, width} = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -33,17 +35,18 @@ export default StyleSheet.create({
   },
   playButton: {
     alignItems: "center",
-    borderColor: playButtonBorderColor,
-    borderRadius: 3,
-    borderWidth: 1.5,
-    height: 50,
+    //borderColor: playButtonBorderColor,
+    //borderRadius: 25,
+    //borderWidth: 1.5,
+    height: height * 0.08,
     justifyContent: "center",
-    width: 50,
+    width: width * 0.08,
+    marginBottom: height * 0.05,
   },
   playIcon: {
-    height: 22,
+    height: '100%',
     resizeMode: "contain",
-    width: 22,
+    width: '100%',
   },
   progressColumnContainer: {
     flex: 1,
@@ -51,7 +54,7 @@ export default StyleSheet.create({
   progressContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    marginBottom: -25,
+    marginBottom: height * 0.03,
   },
   progressSlider: {
     alignSelf: "stretch",
