@@ -21,7 +21,7 @@ const Controls = (props: ControlsProps) => {
     <ActivityIndicator size="large" color="#FFF" />
   ) : (
     <TouchableOpacity
-      style={[styles.playButton, { backgroundColor: mainColor }]}
+      style={[styles.playButton]} //, { backgroundColor: mainColor }]}
       onPress={pressAction}
       accessibilityLabel={PLAYER_STATES.PAUSED ? "Tap to Play" : "Tap to Pause"}
       accessibilityHint={"Plays and Pauses the Video"}
