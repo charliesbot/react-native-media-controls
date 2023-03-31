@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, ActivityIndicator, TouchableOpacity, Image, View, Text, Animated, TouchableWithoutFeedback } from 'react-native';
-import RNSlider from 'react-native-slider';
+import RNSlider from '@react-native-community/slider';
 
 var containerBackgroundColor = "rgba(45, 59, 62, 0.4)";
 var playButtonBorderColor = "rgba(255,255,255,0.5)";
