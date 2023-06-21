@@ -42,6 +42,7 @@
     }
   },
   "devDependencies": {
+    "@react-native-community/slider": "^4.4.1",
     "@types/react": "^16.9.34",
     "@types/react-native": "^0.62.5",
     "husky": "^4.2.5",
